@@ -1,32 +1,36 @@
 package ru.tishin.springweb.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import ru.tishin.springweb.repository.ProductRepository;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
+import ru.tishin.springweb.model.Product;
+import ru.tishin.springweb.services.ProductService;
 
-@Controller
+import java.util.List;
+
+@RestController
 public class MainController {
-
-    private ProductRepository productRepository;
+    private ProductService service;
 
     @Autowired
-    public void setProductRepository(ProductRepository productRepository) {
-        this.productRepository = productRepository;
+    public void setService(ProductService service) {
+        this.service = service;
     }
 
-    // GET [http://localhost:8189/app]/catalog
     @GetMapping("/catalog")
-    public String showCatalogPage(Model model) {
-        model.addAttribute("catalog", productRepository.getCatalog());
-        return "catalog_page";
+    public List<Product> getCatalog() {
+        return service.getCatalog();
     }
 
-    @GetMapping("/catalog/{id}")
-    public String showProductPage(Model model, @PathVariable Long id) {
-        model.addAttribute("product", productRepository.findById(id));
-        return "product_info_page";
+    @GetMapping("/catalog/delete_product")
+    public void deleteById(@RequestParam Long productId) {
+        service.deleteById(productId);
+    }
+
+
+    @GetMapping("/catalog/change_cost")
+    public void changeCostById(@RequestParam Long productId, @RequestParam Integer delta) {
+        service.changeCostById(productId, delta);
     }
 }

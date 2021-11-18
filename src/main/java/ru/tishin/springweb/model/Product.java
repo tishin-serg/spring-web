@@ -3,12 +3,12 @@ package ru.tishin.springweb.model;
 public class Product {
     private Long id;
     private String tittle;
-    private int cost;
+    private Integer cost;
 
     public Product() {
     }
 
-    public Product(Long id, String tittle, int cost) {
+    public Product(Long id, String tittle, Integer cost) {
         this.id = id;
         this.tittle = tittle;
         this.cost = cost;
@@ -30,11 +30,11 @@ public class Product {
         this.tittle = tittle;
     }
 
-    public int getCost() {
+    public Integer getCost() {
         return cost;
     }
 
-    public void setCost(int cost) {
+    public void setCost(Integer cost) {
         this.cost = cost;
     }
 }
