@@ -3,30 +3,31 @@ package ru.tishin.springweb.services;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ru.tishin.springweb.model.Product;
-import ru.tishin.springweb.repository.ProductRepository;
+import ru.tishin.springweb.repository.ProductDao;
 
 import java.util.List;
 
 @Service
 public class ProductService {
 
-    private ProductRepository repository;
+    private ProductDao productDao;
 
     @Autowired
-    public void setRepository(ProductRepository repository) {
-        this.repository = repository;
+    public void setProductDao(ProductDao productDao) {
+        this.productDao = productDao;
     }
 
     public List<Product> getCatalog() {
-        return repository.getCatalog();
+        return productDao.findAll();
     }
 
     public void deleteById(Long id) {
-        repository.deleteById(id);
+        productDao.deleteById(id);
     }
 
     public void changeCostById(Long id, Integer delta) {
-        Product product = repository.findByID(id);
+        Product product = productDao.findById(id);
         product.setCost(product.getCost() + delta);
+        productDao.saveOrUpdate(product);
     }
 }

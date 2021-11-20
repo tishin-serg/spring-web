@@ -36,18 +36,17 @@ angular.module('app', []).controller('indexController', function ($scope, $http)
                 }
 
     $scope.changeCost = function (productId, delta) {
-                $http({
-                     url: contextPath + '/catalog/change_cost',
-                     method: 'GET',
-                     params: {
-                         productId: productId,
-                         delta: delta
-                         }
-                   }).then(function (response) {
-                        $scope.loadProducts();
-                    });
-            }
-
+                    $http({
+                         url: contextPath + '/catalog/change_cost',
+                         method: 'GET',
+                         params: {
+                             productId: productId,
+                             delta: delta
+                             }
+                       }).then(function (response) {
+                            $scope.loadProducts();
+                        });
+                }
 
     $scope.loadProducts();
 });

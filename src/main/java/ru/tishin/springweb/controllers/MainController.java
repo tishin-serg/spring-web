@@ -8,6 +8,7 @@ import ru.tishin.springweb.model.Product;
 import ru.tishin.springweb.services.ProductService;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 public class MainController {
@@ -18,9 +19,17 @@ public class MainController {
         this.service = service;
     }
 
+    // Приходится здесь сортировать лист перед отрисовкой во фронте,
+    // потому что при изменении стоимости продукта почему-то возвращается json с другим порядком продуктов
+    // Подскажите, каким образом можно здесь обойтись без сортировки?
+    // Рассматривал вариант с оптимизацией фронта, чтобы после изменения стоимости обновлялась не таблица,
+    // а отдельная строка. Но подумал, что слишком заморочено. Может есть более оптимальное решение
     @GetMapping("/catalog")
     public List<Product> getCatalog() {
-        return service.getCatalog();
+        List<Product> productList = service.getCatalog().stream()
+                .sorted((o1, o2) -> o1.getId().intValue() - o2.getId().intValue())
+                .collect(Collectors.toList());
+        return productList;
     }
 
     @GetMapping("/catalog/delete_product")
