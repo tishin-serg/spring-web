@@ -1,9 +1,6 @@
-package ru.tishin.springweb.model;
+package ru.tishin.springweb.entities;
 
 import javax.persistence.*;
-
-// Не стал менять имя и тип переменной на int price, как в задании, чтобы не заморачиваться с переименованием
-// Здесь принцип тот же
 
 @Entity
 @Table(name = "catalog")
@@ -24,6 +21,10 @@ public class Product {
         this.id = id;
         this.tittle = tittle;
         this.cost = cost;
+    }
+
+    public Product(String tittle, Integer cost) {
+
     }
 
     public Long getId() {
@@ -48,5 +49,10 @@ public class Product {
 
     public void setCost(Integer cost) {
         this.cost = cost;
+    }
+
+    @Override
+    public String toString() {
+        return "Product{ tittle='" + tittle + '\'' + ", cost=" + cost + '}';
     }
 }

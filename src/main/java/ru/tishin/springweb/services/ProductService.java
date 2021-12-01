@@ -1,33 +1,59 @@
 package ru.tishin.springweb.services;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import ru.tishin.springweb.model.Product;
-import ru.tishin.springweb.repository.ProductDao;
+import org.springframework.transaction.annotation.Transactional;
+import ru.tishin.springweb.entities.Product;
+import ru.tishin.springweb.exceptions.ResourceNotFoundException;
+import ru.tishin.springweb.repository.ProductRepository;
 
 import java.util.List;
 
 @Service
 public class ProductService {
 
-    private ProductDao productDao;
+    private ProductRepository productRepository;
 
-    @Autowired
-    public void setProductDao(ProductDao productDao) {
-        this.productDao = productDao;
+    public ProductService(ProductRepository productRepository) {
+        this.productRepository = productRepository;
     }
 
     public List<Product> getCatalog() {
-        return productDao.findAll();
+        return productRepository.findAll();
     }
 
     public void deleteById(Long id) {
-        productDao.deleteById(id);
+        productRepository.deleteById(id);
     }
 
+    @Transactional
     public void changeCostById(Long id, Integer delta) {
-        Product product = productDao.findById(id);
+        Product product = productRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Product not found. " +
+                "Id: " + id));
+
         product.setCost(product.getCost() + delta);
-        productDao.saveOrUpdate(product);
+        productRepository.save(product);
+    }
+
+    public Product findProductById(Long id) {
+        return productRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Product not found. Id: " + id));
+    }
+
+    public List<Product> findAllByCostMoreThan(Integer min) {
+        return productRepository.findAllByCostMoreThan(min);
+    }
+
+    public List<Product> findAllByCostLessThan(Integer max) {
+        return productRepository.findAllByCostLessThan(max);
+    }
+
+    public List<Product> findAllByCostBetween(Integer min, Integer max) {
+        return productRepository.findAllByCostBetween(min, max);
+    }
+
+    // в этом методе нужен дополнительный сейв? без него вроде всё работает
+    // без аннотации Transactional не работает вообще
+    @Transactional
+    public void addNewProduct(Product product) {
+        productRepository.createProduct(product.getTittle(), product.getCost());
     }
 }
