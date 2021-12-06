@@ -39,7 +39,7 @@ public class ProductService {
     }
 
     public List<Product> findAllByCostMoreThan(Integer min) {
-        return productRepository.findAllByCostMoreThan(min);
+        return productRepository.findAllByCostGreaterThan(min);
     }
 
     public List<Product> findAllByCostLessThan(Integer max) {
@@ -50,10 +50,9 @@ public class ProductService {
         return productRepository.findAllByCostBetween(min, max);
     }
 
-    // в этом методе нужен дополнительный сейв? без него вроде всё работает
-    // без аннотации Transactional не работает вообще
     @Transactional
     public void addNewProduct(Product product) {
-        productRepository.createProduct(product.getTittle(), product.getCost());
+        productRepository.save(product);
     }
+
 }

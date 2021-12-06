@@ -52,7 +52,7 @@ public class MainController {
     }
 
     @GetMapping("/catalog/products_between")
-    public List<Product> getProductsBetween(@RequestParam Integer min, @RequestParam Integer max) {
+    public List<Product> getProductsBetween(@RequestParam(defaultValue = "0") Integer min, @RequestParam Integer max) {
         return service.findAllByCostBetween(min, max);
     }
 
