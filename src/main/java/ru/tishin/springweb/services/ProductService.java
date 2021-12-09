@@ -1,20 +1,43 @@
 package ru.tishin.springweb.services;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.tishin.springweb.entities.Product;
 import ru.tishin.springweb.exceptions.ResourceNotFoundException;
 import ru.tishin.springweb.repository.ProductRepository;
+import ru.tishin.springweb.repository.specifications.ProductsSpecifications;
 
 import java.util.List;
+
+// Вопрос. На каком уровне мы должны преобразовывать объекты в ДТО? На сервисном или на уровне контроллеров?
 
 @Service
 public class ProductService {
 
     private ProductRepository productRepository;
+    private final int pageSize = 5;
 
     public ProductService(ProductRepository productRepository) {
         this.productRepository = productRepository;
+    }
+
+    // Это единственный верный способ создания спецификации или есть ещё покороче?
+    public Page<Product> find(Integer minCost, Integer maxCost, String partTittle, Integer page) {
+        Specification<Product> spec = Specification.where(null);
+        if (minCost != null) {
+            spec = spec.and(ProductsSpecifications.greaterThanOrEqualTo(minCost));
+        }
+        if (maxCost != null) {
+            spec = spec.and(ProductsSpecifications.lessThanOrEqualTo(maxCost));
+        }
+        if (partTittle != null) {
+            spec = spec.and(ProductsSpecifications.tittleLike(partTittle));
+        }
+        return productRepository.findAll(spec, PageRequest.of(page - 1, pageSize));
     }
 
     public List<Product> getCatalog() {
@@ -38,20 +61,8 @@ public class ProductService {
         return productRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Product not found. Id: " + id));
     }
 
-    public List<Product> findAllByCostMoreThan(Integer min) {
-        return productRepository.findAllByCostGreaterThan(min);
-    }
-
-    public List<Product> findAllByCostLessThan(Integer max) {
-        return productRepository.findAllByCostLessThan(max);
-    }
-
-    public List<Product> findAllByCostBetween(Integer min, Integer max) {
-        return productRepository.findAllByCostBetween(min, max);
-    }
-
     @Transactional
-    public void addNewProduct(Product product) {
+    public void save(Product product) {
         productRepository.save(product);
     }
 

@@ -1,5 +1,7 @@
 package ru.tishin.springweb.entities;
 
+import ru.tishin.springweb.dto.ProductDto;
+
 import javax.persistence.*;
 
 @Entity
@@ -23,8 +25,10 @@ public class Product {
         this.cost = cost;
     }
 
-    public Product(String tittle, Integer cost) {
-
+    public Product(ProductDto productDto) {
+        this.id = productDto.getId();
+        this.tittle = productDto.getTittle();
+        this.cost = productDto.getCost();
     }
 
     public Long getId() {
@@ -53,6 +57,10 @@ public class Product {
 
     @Override
     public String toString() {
-        return "Product{ tittle='" + tittle + '\'' + ", cost=" + cost + '}';
+        return "Product{" +
+                "id=" + id +
+                ", tittle='" + tittle + '\'' +
+                ", cost=" + cost +
+                '}';
     }
 }

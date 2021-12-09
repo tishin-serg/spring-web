@@ -1,36 +1,32 @@
-/*  запускаем приложение angular, которым будет управлять indexController,
-подключаем в него модули $scope (аналог моделей в джаве) и $http, чтобы работать с запросами.
-*/
 angular.module('app', []).controller('indexController', function ($scope, $http) {
-    // Прописываем путь до бэкенда нашего приложения
-    const contextPath = 'http://localhost:8189/app';
 
-    // Настраиваем функцию по загрузке товаров
-    // Посылаем запрос по адресу
-    // Когда дождёмся ответ, то кладём ответ в $scope.ProductsList
+    const contextPath = 'http://localhost:8189/app/api/v1';
+
     $scope.loadProducts = function () {
-        $http.get(contextPath + '/catalog')
-            .then(function (response) {
-                $scope.ProductsList = response.data;
-            });
+        $http({
+            url: contextPath + '/catalog',
+            method: 'GET',
+            params: {
+                tittle_part: $scope.filter ? $scope.filter.tittle_part : null,
+                min_cost: $scope.filter ? $scope.filter.min_cost : null,
+                max_cost: $scope.filter ? $scope.filter.max_cost : null
+            }
+        }).then(function (response) {
+            $scope.ProductsList = response.data.content;
+        });
     };
 
     $scope.deleteProduct = function (productId) {
-        $http({
-            url: contextPath + '/catalog/delete_product',
-            method: 'GET',
-            params: {
-                productId: productId
-            }
-        }).then(function (response) {
-            $scope.loadProducts();
-        });
-    }
+            $http.delete(contextPath + '/catalog/' + productId)
+                .then(function (response) {
+                    $scope.loadProducts();
+                });
+        };
 
     $scope.changeCost = function (productId, delta) {
         $http({
-            url: contextPath + '/catalog/change_cost',
-            method: 'GET',
+            url: contextPath + '/catalog/cost',
+            method: 'PATCH',
             params: {
                 productId: productId,
                 delta: delta
@@ -38,20 +34,6 @@ angular.module('app', []).controller('indexController', function ($scope, $http)
         }).then(function (response) {
             $scope.loadProducts();
         });
-    }
-
-    $scope.getProductsBetween = function () {
-        console.log($scope.cost);
-        $http({
-            url: contextPath + '/catalog/products_between',
-            method: 'GET',
-            params: {
-                min: $scope.cost.min,
-                max: $scope.cost.max
-                }
-            }).then(function (response) {
-                $scope.ProductsList = response.data;
-            });
     }
 
     $scope.loadProducts();
