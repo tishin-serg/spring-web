@@ -1,48 +1,37 @@
 package ru.tishin.springweb.dto;
 
-import ru.tishin.springweb.entities.Product;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
+import java.util.Objects;
+
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class ProductDto {
 
     private Long id;
     private String tittle;
     private Integer cost;
+    private Integer count;
 
-    public ProductDto() {
-    }
-
-    public ProductDto(Product product) {
-        this.id = product.getId();
-        this.tittle = product.getTittle();
-        this.cost = product.getCost();
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
+    public ProductDto(Long id, String tittle, Integer cost) {
         this.id = id;
-    }
-
-    public String getTittle() {
-        return tittle;
-    }
-
-    public void setTittle(String tittle) {
         this.tittle = tittle;
-    }
-
-    public Integer getCost() {
-        return cost;
-    }
-
-    public void setCost(Integer cost) {
         this.cost = cost;
     }
 
     @Override
-    public String toString() {
-        return "Product{ tittle='" + tittle + '\'' + ", cost=" + cost + '}';
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        ProductDto that = (ProductDto) o;
+        return id.equals(that.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id);
     }
 }

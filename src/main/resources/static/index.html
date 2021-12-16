@@ -49,19 +49,47 @@
                 <td>Цена</td>
                 <td>Действие</td>
             </tr>
-            <tbody>
-                <tr ng-repeat="p in ProductsList">
+            <!--<tbody>
+                <tr ng-repeat="p in ProductsPage.content">
                     <td>{{p.id}}</td>
                     <td>{{p.tittle}}</td>
+                    <td>{{p.cost}}</td>
                     <td>
-<!--                        <button class="btn btn-primary" ng-click="changeCost(p.id, -5)">-</button>-->
-                        {{p.cost}}
-<!--                        <button class="btn btn-primary" ng-click="changeCost(p.id, 5)">+</button>-->
-                    </td>
-                    <td>
-                        <button class="btn btn-danger" ng-click="deleteProduct(p.id)">Удалить</button>
+                        <button class="btn btn-danger" ng-click="addToCart(p.id)">Добавить в корзину</button>
                     </td>
                 </tr>
+            </tbody>-->
+            <tbody>
+            <tr ng-repeat="p in ProductsPage.content">
+                <td>{{p.id}}</td>
+                <td>{{p.tittle}}</td>
+                <td>{{p.cost}}</td>
+                <td>
+                    <button class="btn btn-danger" ng-click="addToCart(p.id)">Добавить в корзину</button>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+        <p></p>
+        <h3>Корзина</h3>
+        <table class="table table-hover" cellpadding="0" cellspacing="0">
+            <tr>
+                <td>ID</td>
+                <td>Название</td>
+                <td>Цена</td>
+                <td>Количество</td>
+                <td>Действие</td>
+            </tr>
+            <tbody>
+            <tr ng-repeat="product in CartList">
+                <td>{{product.id}}</td>
+                <td>{{product.tittle}}</td>
+                <td>{{product.cost * product.count}}</td>
+                <td>{{product.count}}</td>
+                <td>
+                    <button class="btn btn-danger" ng-click="removeFromCart(product.id)">Удалить из корзины</button>
+                </td>
+            </tr>
             </tbody>
         </table>
     </div>

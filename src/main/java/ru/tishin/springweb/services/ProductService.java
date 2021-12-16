@@ -1,11 +1,12 @@
 package ru.tishin.springweb.services;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import ru.tishin.springweb.dto.ProductDto;
 import ru.tishin.springweb.entities.Product;
 import ru.tishin.springweb.exceptions.ResourceNotFoundException;
 import ru.tishin.springweb.repository.ProductRepository;
@@ -13,19 +14,12 @@ import ru.tishin.springweb.repository.specifications.ProductsSpecifications;
 
 import java.util.List;
 
-// Вопрос. На каком уровне мы должны преобразовывать объекты в ДТО? На сервисном или на уровне контроллеров?
-
 @Service
+@RequiredArgsConstructor
 public class ProductService {
 
-    private ProductRepository productRepository;
-    private final int pageSize = 5;
+    private final ProductRepository productRepository;
 
-    public ProductService(ProductRepository productRepository) {
-        this.productRepository = productRepository;
-    }
-
-    // Это единственный верный способ создания спецификации или есть ещё покороче?
     public Page<Product> find(Integer minCost, Integer maxCost, String partTittle, Integer page) {
         Specification<Product> spec = Specification.where(null);
         if (minCost != null) {
@@ -37,10 +31,10 @@ public class ProductService {
         if (partTittle != null) {
             spec = spec.and(ProductsSpecifications.tittleLike(partTittle));
         }
-        return productRepository.findAll(spec, PageRequest.of(page - 1, pageSize));
+        return productRepository.findAll(spec, PageRequest.of(page - 1, 5));
     }
 
-    public List<Product> getCatalog() {
+    public List<Product> getProducts() {
         return productRepository.findAll();
     }
 
@@ -48,22 +42,20 @@ public class ProductService {
         productRepository.deleteById(id);
     }
 
-    @Transactional
-    public void changeCostById(Long id, Integer delta) {
-        Product product = productRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Product not found. " +
-                "Id: " + id));
-
-        product.setCost(product.getCost() + delta);
-        productRepository.save(product);
-    }
-
     public Product findProductById(Long id) {
         return productRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Product not found. Id: " + id));
     }
 
-    @Transactional
     public void save(Product product) {
         productRepository.save(product);
+    }
+
+    @Transactional
+    public Product update(ProductDto productDto) {
+        Product product = findProductById(productDto.getId());
+        product.setTittle(productDto.getTittle());
+        product.setCost(productDto.getCost());
+        return product;
     }
 
 }
