@@ -25,6 +25,10 @@ public class UserService implements UserDetailsService {
         return userRepository.findByUsername(username);
     }
 
+    public Optional<Long> findIdByUsername(String username) {
+        return userRepository.findIdByUsername(username);
+    }
+
     @Override
     @Transactional
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
@@ -40,5 +44,13 @@ public class UserService implements UserDetailsService {
 
     public User save (User user) {
         return userRepository.save(user);
+    }
+
+    public boolean existsUsername(String username) {
+        return userRepository.existsUserByUsername(username);
+    }
+
+    public boolean existsEmail(String email) {
+        return userRepository.existsUserByEmail(email);
     }
 }

@@ -14,6 +14,10 @@ spring:
     show-sql: true
     properties:
       hibernate:
+        generate_statistics: true
+        jdbc:
+          batch_size: 30
+        order_inserts: true
         dialect: org.hibernate.dialect.H2Dialect
   h2:
     console:

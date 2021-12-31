@@ -58,4 +58,10 @@ public class ProductService {
         return product;
     }
 
+    // здесь наверное лучше возвращать лист строк, т.к. на каждый продукт в заказе будет обращение в базу
+    // как лучше сделать?
+    @Transactional
+    public String findTittleById(Long productId) {
+        return productRepository.findTittleById(productId);
+    }
 }

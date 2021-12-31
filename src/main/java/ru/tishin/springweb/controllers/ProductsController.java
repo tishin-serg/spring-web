@@ -5,9 +5,9 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
+import ru.tishin.springweb.dto.Cart;
 import ru.tishin.springweb.dto.ProductDto;
 import ru.tishin.springweb.entities.Product;
-import ru.tishin.springweb.services.Cart;
 import ru.tishin.springweb.services.ProductService;
 import ru.tishin.springweb.utils.MapUtils;
 import ru.tishin.springweb.validators.ProductValidator;
@@ -20,7 +20,7 @@ public class ProductsController {
 
     private final ProductService service;
     private final ProductValidator validator;
-    private final Cart cart;
+    private final MapUtils mapUtils;
 
     @GetMapping
     public Page<ProductDto> getProducts(
@@ -32,7 +32,7 @@ public class ProductsController {
         if (page < 1) {
             page = 1;
         }
-        return service.find(minCost, maxCost, tittlePart, page).map(MapUtils::toProductDto);
+        return service.find(minCost, maxCost, tittlePart, page).map(mapUtils::toProductDto);
     }
 
     @DeleteMapping("/{id}")
@@ -43,7 +43,7 @@ public class ProductsController {
 
     @GetMapping("/{id}")
     public ProductDto findProductById(@PathVariable Long id) {
-        return MapUtils.toProductDto(service.findProductById(id));
+        return mapUtils.toProductDto(service.findProductById(id));
     }
 
     @PostMapping
@@ -51,9 +51,9 @@ public class ProductsController {
     public ProductDto addProduct(@RequestBody ProductDto productDto) {
         validator.validate(productDto);
         productDto.setId(null);
-        Product product = MapUtils.fromProductDto(productDto);
+        Product product = mapUtils.fromProductDto(productDto);
         service.save(product);
-        return MapUtils.toProductDto(product);
+        return mapUtils.toProductDto(product);
     }
 
     @PutMapping
@@ -61,7 +61,7 @@ public class ProductsController {
     public ProductDto updateProduct(@RequestBody ProductDto productDto) {
         validator.validate(productDto);
         Product product = service.update(productDto);
-        return MapUtils.toProductDto(product);
+        return mapUtils.toProductDto(product);
     }
 
 

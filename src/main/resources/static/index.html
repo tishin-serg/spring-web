@@ -68,6 +68,9 @@
                 </div>
             </form>
         </div>
+        <p></p>
+        <button class="btn btn-danger" ng-click="showCurrentUserInfo()">Обо мне</button>
+        <p></p>
         <h5>Фильтры</h5>
         <form novalidate ng-submit="loadProducts()">
             <div class="form-floating input-group-sm">
@@ -94,42 +97,65 @@
                 <td>ID</td>
                 <td>Название</td>
                 <td>Цена</td>
-                <!--                <td>Действие</td>-->
+                <td>Действие</td>
             </tr>
             <tbody>
                 <tr ng-repeat="p in ProductsPage.content">
                     <td>{{p.id}}</td>
                     <td>{{p.tittle}}</td>
                     <td>{{p.cost}}</td>
-                    <!--                <td>-->
-                    <!--                    <button class="btn btn-danger" ng-click="addToCart(p.id)">Добавить в корзину</button>-->
-                    <!--                </td>-->
+                    <td>
+                        <button class="btn btn-danger" ng-click="addToCart(p.id)">Добавить в корзину</button>
+                    </td>
                 </tr>
             </tbody>
         </table>
         <p></p>
-        <button class="btn btn-danger" ng-click="showCurrentUserInfo()">Обо мне</button>
-        <!--        <h3>Корзина</h3>-->
-        <!--        <table class="table table-hover" cellpadding="0" cellspacing="0">-->
-        <!--            <tr>-->
-        <!--                <td>ID</td>-->
-        <!--                <td>Название</td>-->
-        <!--                <td>Цена</td>-->
-        <!--                <td>Количество</td>-->
-        <!--                <td>Действие</td>-->
-        <!--            </tr>-->
-        <!--            <tbody>-->
-        <!--            <tr ng-repeat="product in CartList">-->
-        <!--                <td>{{product.id}}</td>-->
-        <!--                <td>{{product.tittle}}</td>-->
-        <!--                <td>{{product.cost * product.count}}</td>-->
-        <!--                <td>{{product.count}}</td>-->
-        <!--                <td>-->
-        <!--                    <button class="btn btn-danger" ng-click="removeFromCart(product.id)">Удалить из корзины</button>-->
-        <!--                </td>-->
-        <!--            </tr>-->
-        <!--            </tbody>-->
-        <!--        </table>-->
+        <h3>Корзина</h3>
+        <table class="table table-hover" cellpadding="0" cellspacing="0">
+            <tr>
+                <td>Название</td>
+                <td>Количество</td>
+                <td>Цена</td>
+            </tr>
+            <tbody>
+                <tr ng-repeat="item in Cart.items">
+                    <td>{{item.tittle}}</td>
+                    <td>{{item.quantity}}</td>
+                    <td>{{item.pricePerProduct + ' x ' + item.quantity + ' = ' + item.price}}</td>
+                    <!-- <td>
+                        <button class="btn btn-danger" ng-click="removeFromCart(product.id)">Удалить из корзины</button>
+                    </td> -->
+                </tr>
+                <tr>
+                    <td>
+                        <button class="btn btn-danger" ng-click="clearCart()">Очистить корзину</button>
+                        <button class="btn btn-primary" ng-click="showOrderForm()">Оформить заказ</button>
+                    </td>
+                    <td>Итого</td>
+                    <td>{{Cart.totalPrice}}</td>
+                </tr>
+            </tbody>
+        </table>
+        <br>
+        <h3>Форма заказа</h3>
+        <div class="order" ng-show="isVisibleOrderForm">
+            <form class="align-middle" id="order-form" ng-submit="createOrder()">
+                <div class="input-group input-group-sm" style="padding: 4px;">
+                    <input id="addressField" class="order-form-control" placeholder="Введите адрес"
+                        ng-model="orderDto.address" type="text" aria-describedby="inputGroup-sizing-sm"
+                        style="margin-left: 10px;">
+
+                    <input id="phone" class="order-form-control" placeholder="Введите номер телефона"
+                        ng-model="orderDto.phone" type="number" aria-describedby="inputGroup-sizing-sm"
+                        style="margin-left: 10px;">
+
+                    <button id="orderSubmit" class="btn btn-primary" style="margin-left: 10px;" type="submit">Оформить
+                        заказ
+                    </button>
+                </div>
+            </form>
+        </div>
     </div>
 </body>
 

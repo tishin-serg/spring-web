@@ -1,23 +1,32 @@
 package ru.tishin.springweb.validators;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
-import ru.tishin.springweb.dto.ProductDto;
 import ru.tishin.springweb.dto.UserDto;
 import ru.tishin.springweb.exceptions.ValidationException;
+import ru.tishin.springweb.services.UserService;
 
 import java.util.ArrayList;
 import java.util.List;
 
 @Component
+@RequiredArgsConstructor
 public class UserValidator {
+    private final UserService userService;
 
     public void validate(UserDto userDto) {
         List<String> errors = new ArrayList<>();
         if (userDto.getUsername().isBlank()) {
             errors.add("Имя пользователя не может быть пустым");
         }
-        if (userDto.getPassword().length() < 5) {
-            errors.add("Пароль должен содержать не менее 5 символов");
+        if (userDto.getPassword().length() < 3) {
+            errors.add("Пароль должен содержать не менее 3 символов");
+        }
+        if (userService.existsUsername(userDto.getUsername())) {
+            errors.add("Пользователь с именем: " + userDto.getUsername() + " уже существует");
+        }
+        if (userService.existsEmail(userDto.getEmail())) {
+            errors.add("Пользователь с почтой: " + userDto.getEmail() + " уже существует");
         }
         if (!errors.isEmpty()) {
             throw new ValidationException(errors);

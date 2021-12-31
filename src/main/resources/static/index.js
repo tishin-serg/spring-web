@@ -1,6 +1,8 @@
 angular.module('app', ['ngStorage']).controller('indexController', function ($scope, $rootScope, $http, $localStorage) {
     const contextPath = 'http://localhost:8189/app/api/v1';
     $scope.isVisibleRegistrationForm = false;
+    $scope.isVisibleOrderForm = false;
+
 
     if ($localStorage.springWebUser) {
         $http.defaults.headers.common.Authorization = 'Bearer ' + $localStorage.springWebUser.token;
@@ -43,42 +45,37 @@ angular.module('app', ['ngStorage']).controller('indexController', function ($sc
     $scope.register = function () {
         $http.post(contextPath + '/registration', $scope.userNew)
             .then(function successCallback(response) {
-                alert(response.data.username + ' was created');
-                // $scope.user2 = { username: $scope.userNew.username, password: $scope.userNew.password, };
-                // console.log($scope.user2);
-                // setTimeout(
-                //     () => {
-                //         $scope.tryToAuthAfterRegistration();
-                //     },
-                //     4 * 1000
-                // );
+                setTimeout(
+                    () => {
+                        $http.defaults.headers.common.Authorization = 'Bearer ' + response.data.token;
+                        $localStorage.springWebUser = { username: $scope.userNew.username, token: response.data.token };
+                        $scope.userNew.username = null;
+                        $scope.userNew.password = null;
+                    },
+                    4 * 1000
+                );
             }, function errorCallback(response) {
-                alert(response.data.message);
+                var arr = response.data;
+                alert(JSON.stringify(response.data));
+
             });
     };
 
-    // $scope.tryToAuthAfterRegistration = function () {
-    //     $http.post(contextPath + '/auth', $scope.user2)
-    //         .then(function successCallback(response) {
-    //             console.log($scope.user2);
-    //             alert(response.data);
-    //         }, function errorCallback(response) {
-    //             alert(response.data);
-    //         });
-    // };
-
-    // $scope.tryToAuthAfterRegistration = function () {
-    //     $http({
-    //         url: contextPath + '/auth',
-    //         method: 'POST',
-    //         params: {
-    //             username: $scope.userNew.username,
-    //             password: $scope.userNew.password
-    //         }
-    //     }).then(function (response) {
-    //         alert(response.data);
-    //     });
-    // };
+    $scope.createOrder = function () {
+        $http.post(contextPath + '/orders', $scope.orderDto)
+            .then(function successCallback(response) {
+                setTimeout(
+                    () => {
+                        alert('Номер вашего заказа' + response.data)
+                    },
+                    2 * 1000
+                );
+                $scope.clearCart();
+            }, function errorCallback(response) {
+                var arr = response.data;
+                alert(JSON.stringify(response.data));
+            });
+    };
 
     $scope.tryToLogout = function () {
         $scope.clearUser();
@@ -121,20 +118,35 @@ angular.module('app', ['ngStorage']).controller('indexController', function ($sc
         }
     };
 
-    //    $scope.loadCart = function () {
-    //        $http.get(contextPath + '/products' + '/cart')
-    //            .then(function (response) {
-    //                $scope.CartList = response.data;
-    //                console.log($scope.CartList);
-    //            });
-    //    };
-    //
-    //    $scope.addToCart = function (productId) {
-    //        $http.get(contextPath + '/products' + '/cart/' + productId)
-    //            .then(function (response) {
-    //                $scope.loadCart();
-    //            });
-    //    };
+    $scope.showOrderForm = function () {
+        // console.log($scope.isVisibleRegistrationForm);
+        if (!$scope.isVisibleOrderForm) {
+            $scope.isVisibleOrderForm = true;
+        } else {
+            $scope.isVisibleOrderForm = false;
+        }
+    };
+
+    $scope.loadCart = function () {
+        $http.get(contextPath + '/carts')
+            .then(function (response) {
+                $scope.Cart = response.data;
+            });
+    };
+
+    $scope.addToCart = function (productId) {
+        $http.get(contextPath + '/carts/add/' + productId)
+            .then(function (response) {
+                $scope.loadCart();
+            });
+    };
+
+    $scope.clearCart = function () {
+        $http.get(contextPath + '/carts/clear')
+            .then(function (response) {
+                $scope.loadCart();
+            });
+    };
     //
     //    $scope.removeFromCart = function (productId) {
     //        $http.delete(contextPath + '/products' + '/cart/' + productId)
@@ -144,5 +156,5 @@ angular.module('app', ['ngStorage']).controller('indexController', function ($sc
     //    };
 
     $scope.loadProducts();
-    //    $scope.loadCart();
+    $scope.loadCart();
 });
