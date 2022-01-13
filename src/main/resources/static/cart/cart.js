@@ -18,19 +18,12 @@ angular.module('market-front').controller('cartController', function ($scope, $l
     $scope.checkOut = function () {
         $http.post(contextPath + '/orders', $scope.orderDto)
             .then(function successCallback(response) {
-                setTimeout(
-                    () => {
-                        alert('Номер вашего заказа' + response.data)
-                    },
-                    2 * 1000
-                );
                 $scope.clearCart();
                 $scope.orderDto = null;
-                // $scope.loadOrders();
             }, function errorCallback(response) {
                 var arr = response.data;
                 alert(JSON.stringify(response.data));
-                $scope.loadCart();
+                // $scope.loadCart();
                 $scope.orderDto = null;
             });
     };

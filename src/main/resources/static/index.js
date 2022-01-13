@@ -18,6 +18,10 @@
                 templateUrl: 'cart/cart.html',
                 controller: 'cartController'
             })
+            .when('/order', {
+                templateUrl: 'order/order.html',
+                controller: 'orderController'
+            })
             .otherwise({
                 redirectTo: '/'
             });

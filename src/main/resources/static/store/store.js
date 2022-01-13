@@ -15,13 +15,6 @@ angular.module('market-front').controller('storeController', function ($scope, $
         });
     };
 
-    $scope.loadOrders = function () {
-        $http.get(contextPath + '/orders')
-            .then(function (response) {
-                $scope.Orders = response.data;
-            });
-    };
-
     $scope.addToCart = function (productId) {
         $http.get(contextPath + '/carts/add/' + productId)
             .then(function (response) {
@@ -37,5 +30,4 @@ angular.module('market-front').controller('storeController', function ($scope, $
     // };
 
     $scope.loadProducts();
-    $scope.loadOrders();
 });
