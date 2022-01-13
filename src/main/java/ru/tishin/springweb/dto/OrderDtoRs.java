@@ -5,13 +5,11 @@ import lombok.Data;
 
 import java.util.List;
 
-/*
-чтобы показать инфу по заказу и его содержимое клиенту
- */
 @Data
 @AllArgsConstructor
-public class OrderDtoForClient {
+public class OrderDtoRs {
     private Long orderId;
+    private String username;
     private String address;
     private String phone;
     private int totalPrice;

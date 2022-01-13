@@ -21,5 +21,4 @@ public class RoleService {
         user.setRoles(roles);
     }
 
-
 }

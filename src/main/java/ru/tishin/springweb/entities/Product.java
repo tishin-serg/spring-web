@@ -3,13 +3,15 @@ package ru.tishin.springweb.entities;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "products")
 @Data
-@AllArgsConstructor
 @NoArgsConstructor
 public class Product {
     @Id
@@ -21,4 +23,9 @@ public class Product {
     @Column(name = "cost")
     private Integer cost;
 
+    public Product(Long id, String tittle, Integer cost) {
+        this.id = id;
+        this.tittle = tittle;
+        this.cost = cost;
+    }
 }

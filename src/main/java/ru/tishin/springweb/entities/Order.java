@@ -3,8 +3,12 @@ package ru.tishin.springweb.entities;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
+import java.util.List;
 
 @Entity
 @Table(name = "orders")
@@ -17,8 +21,13 @@ public class Order {
     @Column(name = "id")
     private Long id;
 
-    @Column(name = "user_id")
-    private Long userId;
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private User user;
+
+    // cascade позволяет сохранить все orderItems на которые ссылается order, без отдельного вызова save
+    @OneToMany(mappedBy = "order", cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
+    private List<OrderItem> orderItems;
 
     @Column(name = "total_price")
     private int totalPrice;
@@ -28,6 +37,14 @@ public class Order {
 
     @Column(name = "phone")
     private String phone;
+
+    @CreationTimestamp
+    @Column(name = "created_at")
+    private LocalDateTime createdAt;
+
+    @UpdateTimestamp
+    @Column(name = "updated_at")
+    private LocalDateTime updatedAt;
 
     public Order(int totalPrice, String address, String phone) {
         this.totalPrice = totalPrice;

@@ -3,8 +3,11 @@ package ru.tishin.springweb.entities;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "order_items")
@@ -17,14 +20,13 @@ public class OrderItem {
     @Column(name = "id")
     private Long id;
 
-    @Column(name = "product_id")
-    private Long productId;
+    @ManyToOne
+    @JoinColumn(name = "product_id")
+    private Product product;
 
-    @Column(name = "user_id")
-    private Long userId;
-
-    @Column(name = "order_id")
-    private Long orderId;
+    @ManyToOne
+    @JoinColumn(name = "order_id")
+    private Order order;
 
     @Column(name = "quantity")
     private int quantity;
@@ -35,10 +37,17 @@ public class OrderItem {
     @Column(name = "price")
     private int price;
 
-    public OrderItem(Long productId, Long userId, Long orderId, int quantity, int pricePerProduct, int price) {
-        this.productId = productId;
-        this.userId = userId;
-        this.orderId = orderId;
+    @CreationTimestamp
+    @Column(name = "created_at")
+    private LocalDateTime createdAt;
+
+    @UpdateTimestamp
+    @Column(name = "updated_at")
+    private LocalDateTime updatedAt;
+
+    public OrderItem(Product product, Order order, int quantity, int pricePerProduct, int price) {
+        this.product = product;
+        this.order = order;
         this.quantity = quantity;
         this.pricePerProduct = pricePerProduct;
         this.price = price;
