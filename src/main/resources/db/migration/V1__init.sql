@@ -1,27 +1,37 @@
-create table if not exists products (id bigserial primary key, tittle varchar(255), cost int);
+create table if not exists products (
+                                     id             bigserial primary key,
+                                     category_id    bigint references categories (id),
+                                     tittle         varchar(255), cost int
+                                     );
+
+
+create table if not exists categories (id bigserial primary key, tittle varchar(255));
+
+insert into categories (tittle)
+values ('Fruits', 'Vegetables', 'Drinks', 'Deserts', 'Main', 'Other')
 
 insert into products (tittle, cost)
 values
-('Milk', 80),
-('Apple', 100),
-('Banana', 120),
-('Beef', 300),
-('Cherry', 50),
-('Tomato', 180),
-('Cucumber', 100),
-('Bread', 60),
-('Lemon', 220),
-('Orange', 130),
-('Potato', 40),
-('Cheese', 115),
-('Chicken', 250),
-('Water', 30),
-('Melon', 180),
-('Beer', 80),
-('Fish', 350),
-('Ice cream', 50),
-('Chocolate', 60),
-('Juice', 90);
+('Milk', 3, 80),
+('Apple', 1, 100),
+('Banana', 1, 120),
+('Beef', 5, 300),
+('Cherry', 1, 50),
+('Tomato', 2, 180),
+('Cucumber', 2, 100),
+('Bread', 5, 60),
+('Lemon', 1, 220),
+('Orange', 1, 130),
+('Potato', 2, 40),
+('Cheese', 5, 115),
+('Chicken', 5, 250),
+('Water', 3, 30),
+('Melon', 1, 180),
+('Beer', 3, 80),
+('Fish', 5, 350),
+('Ice cream', 4, 50),
+('Chocolate', 4, 60),
+('Juice', 3, 90);
 
 create table users (
     id         bigserial primary key,

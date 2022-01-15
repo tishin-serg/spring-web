@@ -1,8 +1,10 @@
 (function () {
-    var app = angular
+    angular
         .module('market-front', ['ngRoute', 'ngStorage'])
         .config(config)
         .run(run);
+
+    const contextPath = 'http://localhost:8189/app/api/v1';
 
     function config($routeProvider) {
         $routeProvider
@@ -31,7 +33,13 @@
         if ($localStorage.springWebUser) {
             $http.defaults.headers.common.Authorization = 'Bearer ' + $localStorage.springWebUser.token;
         }
-    }
+        if (!$localStorage.springWebCartId) {
+            $http.get(contextPath + '/carts/generate')
+                .then(function successCallback(response) {
+                    $localStorage.springWebCartId = response.data.value;
+                });
+        };
+    };
 })();
 
 angular.module('market-front').controller('indexController', function ($scope, $rootScope, $http, $localStorage, $location) {
@@ -46,6 +54,12 @@ angular.module('market-front').controller('indexController', function ($scope, $
                     $localStorage.springWebUser = { username: $scope.user.username, token: response.data.token };
                     $scope.user.username = null;
                     $scope.user.password = null;
+
+                    $http.get(contextPath + '/carts/' + $localStorage.springWebCartId + '/merge')
+                        .then(function successCallback(response) {
+
+                        });
+
                     $location.path('/');
                 }
             }, function errorCallback(response) {

@@ -31,7 +31,9 @@ public class OrderController {
     @ResponseStatus(HttpStatus.CREATED)
     public Long createOrder(@RequestBody OrderDto orderDto, Principal principal) {
         validator.validate(orderDto);
-        if (cartService.getCurrentCart().getItems().isEmpty()) {
+        String username = principal.getName();
+        String cartKey = cartService.getCartUuidFromSuffix(username);
+        if (cartService.getCurrentCart(cartKey).getItems().isEmpty()) {
             throw new ResourceNotFoundException("Корзина не может быть пустой");
         }
         Order order = new Order(orderDto.getAddress(), orderDto.getPhone());

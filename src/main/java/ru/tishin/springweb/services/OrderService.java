@@ -25,7 +25,7 @@ public class OrderService {
     public Long createOrder(Order order, String username) {
         User user = userService.findByUserName(username)
                 .orElseThrow(() -> new ResourceNotFoundException("User: " + username + " not found"));
-        Cart cart = cartService.getCurrentCart();
+        Cart cart = cartService.getCurrentCart(cartService.getCartUuidFromSuffix(username));
         order.setTotalPrice(cart.getTotalPrice());
         order.setUser(user);
         order.setOrderItems(cart.getItems().stream()
@@ -50,9 +50,9 @@ public class OrderService {
         return orderRepository.findAllOrderByUserId(userId);
     }
 
-    public boolean existsByUsername(String username) {
-        return orderRepository.existsByUsername(username);
-    }
+//    public boolean existsByUsername(String username) {
+//        return orderRepository.existsByUsername(username);
+//    }
 
     public List<Order> findAllOrderByUsername(String username) {
         return orderRepository.findAllOrderByUsername(username);

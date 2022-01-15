@@ -2,14 +2,14 @@ angular.module('market-front').controller('cartController', function ($scope, $l
     const contextPath = 'http://localhost:8189/app/api/v1';
 
     $scope.loadCart = function () {
-        $http.get(contextPath + '/carts')
+        $http.get(contextPath + '/carts/' + $localStorage.springWebCartId)
             .then(function (response) {
                 $scope.cart = response.data;
             });
     };
 
     $scope.clearCart = function () {
-        $http.get(contextPath + '/carts/clear')
+        $http.get(contextPath + '/carts/' + $localStorage.springWebCartId + '/clear')
             .then(function (response) {
                 $scope.loadCart();
             });
