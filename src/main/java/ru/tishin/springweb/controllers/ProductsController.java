@@ -3,9 +3,9 @@ package ru.tishin.springweb.controllers;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
-import ru.tishin.springweb.dto.Cart;
 import ru.tishin.springweb.dto.ProductDto;
 import ru.tishin.springweb.entities.Product;
 import ru.tishin.springweb.services.ProductService;
@@ -14,6 +14,7 @@ import ru.tishin.springweb.validators.ProductValidator;
 
 @RestController
 @RequestMapping("/api/v1/products")
+// @RequestMapping("/api/v1/products/{{categoryTittle}}")
 @RequiredArgsConstructor
 @Slf4j
 public class ProductsController {
@@ -24,6 +25,7 @@ public class ProductsController {
 
     @GetMapping
     public Page<ProductDto> getProducts(
+            @RequestParam(name = "category", required = false) String category,
             @RequestParam(name = "p", defaultValue = "1") Integer page,
             @RequestParam(name = "tittle_part", required = false) String tittlePart,
             @RequestParam(name = "min_cost", required = false) Integer minCost,
@@ -32,7 +34,18 @@ public class ProductsController {
         if (page < 1) {
             page = 1;
         }
-        return service.find(minCost, maxCost, tittlePart, page).map(mapUtils::toProductDto);
+        return service.find(minCost, maxCost, tittlePart, page, category).map(mapUtils::toProductDto);
+    }
+
+    @GetMapping("/category")
+    public Page<ProductDto> getProductsByCategories(
+            @RequestParam String category,
+            @RequestParam(name = "p", defaultValue = "1") Integer page
+    ) {
+        if (page < 1) {
+            page = 1;
+        }
+        return service.find(page, category).map(mapUtils::toProductDto);
     }
 
     @DeleteMapping("/{id}")
@@ -65,7 +78,6 @@ public class ProductsController {
     }
 
 
-//    //todo переделать корзину по REST
 //    @GetMapping("/cart/{id}")
 //    @ResponseStatus(HttpStatus.OK)
 //    public void addToCart(@PathVariable Long id) {

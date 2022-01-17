@@ -20,7 +20,7 @@ public class ProductService {
 
     private final ProductRepository productRepository;
 
-    public Page<Product> find(Integer minCost, Integer maxCost, String partTittle, Integer page) {
+    public Page<Product> find(Integer minCost, Integer maxCost, String partTittle, Integer page, String category) {
         Specification<Product> spec = Specification.where(null);
         if (minCost != null) {
             spec = spec.and(ProductsSpecifications.greaterThanOrEqualTo(minCost));
@@ -30,6 +30,17 @@ public class ProductService {
         }
         if (partTittle != null) {
             spec = spec.and(ProductsSpecifications.tittleLike(partTittle));
+        }
+        if (category != null) {
+            spec = spec.and(ProductsSpecifications.productCategory(category));
+        }
+        return productRepository.findAll(spec, PageRequest.of(page - 1, 5));
+    }
+
+    public Page<Product> find(Integer page, String category) {
+        Specification<Product> spec = Specification.where(null);
+        if (category != null) {
+            spec = spec.and(ProductsSpecifications.productCategory(category));
         }
         return productRepository.findAll(spec, PageRequest.of(page - 1, 5));
     }

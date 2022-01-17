@@ -1,16 +1,20 @@
+create table if not exists categories (id bigserial primary key, tittle varchar(255));
+
 create table if not exists products (
                                      id             bigserial primary key,
                                      category_id    bigint references categories (id),
                                      tittle         varchar(255), cost int
                                      );
 
-
-create table if not exists categories (id bigserial primary key, tittle varchar(255));
-
 insert into categories (tittle)
-values ('Fruits', 'Vegetables', 'Drinks', 'Deserts', 'Main', 'Other')
+values ('Fruits'),
+('Vegetables'),
+('Drinks'),
+('Deserts'),
+('Main'),
+('Other');
 
-insert into products (tittle, cost)
+insert into products (tittle, category_id, cost)
 values
 ('Milk', 3, 80),
 ('Apple', 1, 100),
