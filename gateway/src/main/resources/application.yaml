@@ -1,0 +1,45 @@
+server:
+  port: 5555
+spring:
+  application:
+    name: gateway-service
+  cloud:
+    gateway:
+      globalcors:
+        corsConfigurations:
+          '[/**]':
+            allowedOrigins: "http://localhost:3000" # разрешаем стучаться в gateway с этого адреса
+            allowedMethods:
+              - GET
+              - POST
+            allowedHeaders: "*"
+      routes:
+        # если к нам постучались с адреса http://localhost:5555/core/api/v1/products
+        #  то мы попадаем в http://localhost:8189/market-core/api/v1/products
+        - id: core-service
+          uri: http://localhost:8189/
+          predicates:
+            - Path=/core/**
+          filters:
+            - StripPrefix=1 # отпиливаем /core/
+            - PrefixPath=/web-market-core # подставляем префикс
+            - JwtAuthFilter # чтобы запрос проходя через gateway модифицировался, добавляем класс-фильтр
+#        - id: cart-service
+#          uri: http://localhost:8191/
+#          predicates:
+#            - Path=/cart/**
+#          filters:
+#            - StripPrefix=1
+#            - PrefixPath=/market-cart
+#            - JwtAuthFilter
+        - id: auth-service
+          uri: http://localhost:8188/
+          predicates:
+            - Path=/auth/**
+          filters:
+            - StripPrefix=1
+            - PrefixPath=/web-market-auth
+            - JwtAuthFilter
+jwt:
+  secret: naskjdnakjndkxnzckjnkj1n23kj21nerufehdiujli
+  lifetime: 360000

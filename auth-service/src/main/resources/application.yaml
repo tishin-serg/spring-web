@@ -1,0 +1,23 @@
+server:
+  port: 8188
+  servlet:
+    context-path: /web-market-auth
+spring:
+  application:
+    name: auth-service
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    url: jdbc:postgresql://localhost:5433/
+    username: postgres
+    password: 12345
+  jpa:
+    show-sql: true
+    properties:
+      hibernate:
+        jdbc:
+          batch_size: 30
+        order_inserts: true
+        dialect: org.hibernate.dialect.PostgreSQL10Dialect
+jwt:
+  secret: naskjdnakjndkxnzckjnkj1n23kj21nerufehdiujli
+  lifetime: 360000
