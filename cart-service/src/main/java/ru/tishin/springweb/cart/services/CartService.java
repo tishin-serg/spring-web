@@ -1,20 +1,24 @@
-package ru.tishin.springweb.services;
+package ru.tishin.springweb.cart.services;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
-import ru.tishin.springweb.dto.Cart;
-import ru.tishin.springweb.entities.Product;
+import org.springframework.web.client.RestTemplate;
+import ru.tishin.springweb.api.dto.ProductDto;
+import ru.tishin.springweb.cart.dto.Cart;
 
 import java.util.UUID;
 import java.util.function.Consumer;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class CartService {
-    private final ProductService productService;
+    // private final ProductService productService;
     private final RedisTemplate<String, Object> redisTemplate;
+    private final RestTemplate restTemplate;
 
     @Value("${utils.cart.prefix}")
     private String cartPrefix;
@@ -41,7 +45,9 @@ public class CartService {
     }
 
     public void addProduct(String cartKey, Long productId) {
-        Product product = productService.findProductById(productId);
+        // Product product = productService.findProductById(productId);
+        ProductDto product = restTemplate.getForObject("http://localhost:8189/web-market-core/api/v1/products/{productId}",
+                ProductDto.class, productId);
         execute(cartKey, c -> c.addProduct(product));
     }
 

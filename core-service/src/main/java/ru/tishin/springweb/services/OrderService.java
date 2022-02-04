@@ -3,7 +3,9 @@ package ru.tishin.springweb.services;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import ru.tishin.springweb.dto.Cart;
+
+import ru.tishin.springweb.cart.dto.Cart;
+import ru.tishin.springweb.cart.services.CartService;
 import ru.tishin.springweb.entities.Order;
 import ru.tishin.springweb.entities.OrderItem;
 import ru.tishin.springweb.repository.OrderRepository;

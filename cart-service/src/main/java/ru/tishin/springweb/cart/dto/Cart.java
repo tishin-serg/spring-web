@@ -1,7 +1,9 @@
-package ru.tishin.springweb.dto;
+package ru.tishin.springweb.cart.dto;
 
 import lombok.Data;
-import ru.tishin.springweb.entities.Product;
+
+import ru.tishin.springweb.api.dto.OrderItemDto;
+import ru.tishin.springweb.api.dto.ProductDto;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -15,9 +17,9 @@ public class Cart {
         this.items = new ArrayList<>();
     }
 
-    public void addProduct(Product product) {
-        if (addProduct(product.getId())) return;
-        items.add(new OrderItemDto(product));
+    public void addProduct(ProductDto productDto) {
+        if (addProduct(productDto.getId())) return;
+        items.add(new OrderItemDto(productDto));
         recalculate();
     }
 

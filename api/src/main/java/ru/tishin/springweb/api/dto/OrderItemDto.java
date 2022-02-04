@@ -1,8 +1,7 @@
-package ru.tishin.springweb.dto;
+package ru.tishin.springweb.api.dto;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import ru.tishin.springweb.entities.Product;
 
 @Data
 @NoArgsConstructor
@@ -21,12 +20,12 @@ public class OrderItemDto {
         this.price = price;
     }
 
-    public OrderItemDto(Product product) {
-        this.productId = product.getId();
-        this.tittle = product.getTittle();
+    public OrderItemDto(ProductDto productDto) {
+        this.productId = productDto.getId();
+        this.tittle = productDto.getTittle();
         this.quantity = 1;
-        this.pricePerProduct = product.getCost();
-        this.price = product.getCost();
+        this.pricePerProduct = productDto.getCost();
+        this.price = productDto.getCost();
     }
 
     public void changeQuantity(int delta) {

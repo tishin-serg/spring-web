@@ -5,6 +5,7 @@
         .run(run);
 
     const contextPath = 'http://localhost:5555/core/api/v1';
+    const contextPathCartService = 'http://localhost:5555/cart/api/v1';
 
     function config($routeProvider) {
         $routeProvider
@@ -48,7 +49,7 @@
                     }
                 }
         if (!$localStorage.springWebCartId) {
-            $http.get(contextPath + '/carts/generate')
+            $http.get(contextPathCartService + '/carts/generate')
                 .then(function successCallback(response) {
                     $localStorage.springWebCartId = response.data.value;
                 });
@@ -58,6 +59,7 @@
 
 angular.module('market-front').controller('indexController', function ($scope, $rootScope, $http, $localStorage, $location) {
     const contextPath = 'http://localhost:5555/auth/api/v1';
+    const contextPathCartService = 'http://localhost:5555/cart/api/v1';
     $scope.isVisibleRegistrationForm = false;
 
     $scope.tryToAuth = function () {
@@ -69,7 +71,7 @@ angular.module('market-front').controller('indexController', function ($scope, $
                     $scope.user.username = null;
                     $scope.user.password = null;
 
-                    $http.get('http://localhost:5555/core/api/v1' + '/carts/' + $localStorage.springWebCartId + '/merge')
+                    $http.get(contextPathCartService + '/carts/' + $localStorage.springWebCartId + '/merge')
                         .then(function successCallback(response) {
 
                         });

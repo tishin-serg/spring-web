@@ -24,14 +24,14 @@ spring:
             - StripPrefix=1 # отпиливаем /core/
             - PrefixPath=/web-market-core # подставляем префикс
             - JwtAuthFilter # чтобы запрос проходя через gateway модифицировался, добавляем класс-фильтр
-#        - id: cart-service
-#          uri: http://localhost:8191/
-#          predicates:
-#            - Path=/cart/**
-#          filters:
-#            - StripPrefix=1
-#            - PrefixPath=/market-cart
-#            - JwtAuthFilter
+        - id: cart-service
+          uri: http://localhost:8187/
+          predicates:
+            - Path=/cart/**
+          filters:
+            - StripPrefix=1
+            - PrefixPath=/web-market-cart
+            - JwtAuthFilter
         - id: auth-service
           uri: http://localhost:8188/
           predicates:

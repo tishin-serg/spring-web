@@ -1,22 +1,23 @@
 angular.module('market-front').controller('cartController', function ($scope, $location, $http, $localStorage) {
-    const contextPath = 'http://localhost:5555/core/api/v1';
+    const contextPathCartService = 'http://localhost:5555/cart/api/v1';
+    const contextPathOrderService = 'http://localhost:5555/core/api/v1';
 
     $scope.loadCart = function () {
-        $http.get(contextPath + '/carts/' + $localStorage.springWebCartId)
+        $http.get(contextPathCartService + '/carts/' + $localStorage.springWebCartId)
             .then(function (response) {
                 $scope.cart = response.data;
             });
     };
 
     $scope.clearCart = function () {
-        $http.get(contextPath + '/carts/' + $localStorage.springWebCartId + '/clear')
+        $http.get(contextPathCartService + '/carts/' + $localStorage.springWebCartId + '/clear')
             .then(function (response) {
                 $scope.loadCart();
             });
     };
 
     $scope.checkOut = function () {
-        $http.post(contextPath + '/orders', $scope.orderDto)
+        $http.post(contextPathOrderService + '/orders', $scope.orderDto)
             .then(function successCallback(response) {
                 $scope.clearCart();
                 $scope.orderDto = null;

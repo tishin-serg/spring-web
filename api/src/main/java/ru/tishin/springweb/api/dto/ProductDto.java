@@ -1,4 +1,4 @@
-package ru.tishin.springweb.dto;
+package ru.tishin.springweb.api.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

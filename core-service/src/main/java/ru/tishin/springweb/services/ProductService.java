@@ -7,7 +7,7 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.tishin.springweb.api.exceptions.ResourceNotFoundException;
-import ru.tishin.springweb.dto.ProductDto;
+import ru.tishin.springweb.api.dto.ProductDto;
 import ru.tishin.springweb.entities.Product;
 import ru.tishin.springweb.repository.ProductRepository;
 import ru.tishin.springweb.repository.specifications.ProductsSpecifications;

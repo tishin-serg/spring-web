@@ -5,7 +5,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
-import ru.tishin.springweb.dto.ProductDto;
+import ru.tishin.springweb.api.dto.ProductDto;
 import ru.tishin.springweb.entities.Product;
 import ru.tishin.springweb.services.ProductService;
 import ru.tishin.springweb.utils.MapUtils;

@@ -2,6 +2,7 @@ package ru.tishin.springweb.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import ru.tishin.springweb.api.dto.OrderItemDto;
 
 import java.util.List;
 

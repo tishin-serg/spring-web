@@ -1,4 +1,4 @@
-package ru.tishin.springweb.configs;
+package ru.tishin.springweb.cart.configs;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

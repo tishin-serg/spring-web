@@ -1,10 +1,11 @@
-package ru.tishin.springweb.controllers;
+package ru.tishin.springweb.cart.controllers;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
-import ru.tishin.springweb.dto.Cart;
 import ru.tishin.springweb.api.dto.StringResponse;
-import ru.tishin.springweb.services.CartService;
+import ru.tishin.springweb.cart.dto.Cart;
+import ru.tishin.springweb.cart.services.CartService;
+
 
 @RestController
 @RequestMapping("/api/v1/carts")

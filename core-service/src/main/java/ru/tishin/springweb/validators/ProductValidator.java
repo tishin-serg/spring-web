@@ -1,7 +1,7 @@
 package ru.tishin.springweb.validators;
 
 import org.springframework.stereotype.Component;
-import ru.tishin.springweb.dto.ProductDto;
+import ru.tishin.springweb.api.dto.ProductDto;
 import ru.tishin.springweb.exceptions.ValidationException;
 
 import java.util.ArrayList;
