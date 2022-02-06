@@ -3,9 +3,7 @@ package ru.tishin.springweb.services;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import ru.tishin.springweb.cart.dto.Cart;
-import ru.tishin.springweb.cart.services.CartService;
+import ru.tishin.springweb.api.dto.Cart;
 import ru.tishin.springweb.entities.Order;
 import ru.tishin.springweb.entities.OrderItem;
 import ru.tishin.springweb.repository.OrderRepository;
@@ -17,12 +15,10 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class OrderService {
     private final OrderRepository orderRepository;
-    private final CartService cartService;
     private final ProductService productService;
 
     @Transactional
-    public Long createOrder(Order order, String username) {
-        Cart cart = cartService.getCurrentCart(cartService.getCartUuidFromSuffix(username));
+    public Long createOrder(Order order, String username, Cart cart) {
         order.setTotalPrice(cart.getTotalPrice());
         order.setUsername(username);
         order.setOrderItems(cart.getItems().stream()

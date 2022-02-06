@@ -1,9 +1,6 @@
-package ru.tishin.springweb.cart.dto;
+package ru.tishin.springweb.api.dto;
 
 import lombok.Data;
-
-import ru.tishin.springweb.api.dto.OrderItemDto;
-import ru.tishin.springweb.api.dto.ProductDto;
 
 import java.util.ArrayList;
 import java.util.List;

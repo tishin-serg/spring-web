@@ -3,7 +3,7 @@ package ru.tishin.springweb.cart.controllers;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 import ru.tishin.springweb.api.dto.StringResponse;
-import ru.tishin.springweb.cart.dto.Cart;
+import ru.tishin.springweb.api.dto.Cart;
 import ru.tishin.springweb.cart.services.CartService;
 
 
@@ -55,6 +55,11 @@ public class CartController {
     @GetMapping("/generate")
     public StringResponse getCart() {
         return new StringResponse(cartService.generateCartUuid());
+    }
+
+    @GetMapping("/uuid/{username}")
+    public String getCartUuidFromUsername(@PathVariable String username) {
+        return cartService.getCartUuidFromSuffix(username);
     }
 
     public String getCurrentCartUuid(String uuid, String username) {

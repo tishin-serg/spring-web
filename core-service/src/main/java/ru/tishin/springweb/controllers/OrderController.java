@@ -3,8 +3,9 @@ package ru.tishin.springweb.controllers;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.client.RestTemplate;
+import ru.tishin.springweb.api.dto.Cart;
 import ru.tishin.springweb.api.exceptions.ResourceNotFoundException;
-import ru.tishin.springweb.cart.services.CartService;
 import ru.tishin.springweb.dto.OrderDto;
 import ru.tishin.springweb.dto.OrderDtoRs;
 import ru.tishin.springweb.entities.Order;
@@ -19,21 +20,28 @@ import java.util.stream.Collectors;
 @RequestMapping("/api/v1/orders")
 @RequiredArgsConstructor
 public class OrderController {
+    private final static String URL_CART_MS = "http://localhost:8187/web-market-cart/api/v1/carts";
     private final OrderService orderService;
     private final MapUtils mapUtils;
-    private final CartService cartService;
     private final OrderDtoValidator validator;
+    private final RestTemplate restTemplate;
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public Long createOrder(@RequestBody OrderDto orderDto, @RequestHeader String username) {
         validator.validate(orderDto);
-        String cartKey = cartService.getCartUuidFromSuffix(username);
-        if (cartService.getCurrentCart(cartKey).getItems().isEmpty()) {
+
+        String uuid = restTemplate.getForObject(URL_CART_MS + "/uuid/{username}",
+                String.class, username);
+        Cart cart = restTemplate.getForObject(URL_CART_MS + "/{uuid}", Cart.class, uuid);
+
+        if (cart == null) throw new ResourceNotFoundException("Корзины с ключом " + uuid + " не существует");
+
+        if (cart.getItems().isEmpty()) {
             throw new ResourceNotFoundException("Корзина не может быть пустой");
         }
         Order order = new Order(orderDto.getAddress(), orderDto.getPhone());
-        return orderService.createOrder(order, username);
+        return orderService.createOrder(order, username, cart);
     }
 
     @GetMapping

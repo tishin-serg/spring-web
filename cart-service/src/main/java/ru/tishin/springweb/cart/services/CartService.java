@@ -7,7 +7,7 @@ import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 import ru.tishin.springweb.api.dto.ProductDto;
-import ru.tishin.springweb.cart.dto.Cart;
+import ru.tishin.springweb.api.dto.Cart;
 
 import java.util.UUID;
 import java.util.function.Consumer;
@@ -16,7 +16,6 @@ import java.util.function.Consumer;
 @RequiredArgsConstructor
 @Slf4j
 public class CartService {
-    // private final ProductService productService;
     private final RedisTemplate<String, Object> redisTemplate;
     private final RestTemplate restTemplate;
 
@@ -45,7 +44,6 @@ public class CartService {
     }
 
     public void addProduct(String cartKey, Long productId) {
-        // Product product = productService.findProductById(productId);
         ProductDto product = restTemplate.getForObject("http://localhost:8189/web-market-core/api/v1/products/{productId}",
                 ProductDto.class, productId);
         execute(cartKey, c -> c.addProduct(product));
