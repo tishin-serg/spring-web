@@ -1,0 +1,25 @@
+version: '1'
+
+services:
+
+  postgres:
+    image: postgres:9.6
+    domainname: postgres
+    ports:
+      - "5433:5432"
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=12345
+    healthcheck:
+      test: ["CMD", "pg_isready", "-q", "-U", "postgres"]
+      interval: 5s
+      timeout: 1s
+      retries: 2
+
+  flyway:
+    image: boxfuse/flyway
+    command: -url=jdbc:postgresql://postgres:5432/postgres -schemas=public -user=postgres -password=12345 -connectRetries=60
+    volumes:
+      - ./flyway:/flyway/sql
+    depends_on:
+      - postgres
