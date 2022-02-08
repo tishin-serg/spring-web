@@ -6,6 +6,12 @@
 </head>
 <body>
     <h1>Catalog</h1>
-    <span></span>
+
+    <div th:each="p : ${catalog}">
+        <span th:text="${'Name: ' + p.tittle + ' ID: ' + p.id + ' Price: ' + p.cost + ' rub'} "/><br>
+        <a th:href="@{'/catalog/' + ${p.id}}">INFO</a>
+    </div>
+    <span th:text="${'Products count: ' + catalog.size()}"/><br>
+
 </body>
 </html>
