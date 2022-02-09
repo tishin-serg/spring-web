@@ -74,24 +74,4 @@ public class ProductsController {
         Product product = service.update(productDto);
         return mapUtils.toProductDto(product);
     }
-
-
-//    @GetMapping("/cart/{id}")
-//    @ResponseStatus(HttpStatus.OK)
-//    public void addToCart(@PathVariable Long id) {
-//        Product product = service.findProductById(id);
-//        cart.add(MapUtils.toDto(product));
-//    }
-//
-//    @GetMapping("/cart")
-//    public List<ProductDto> getCart() {
-//        return cart.getProductList();
-//    }
-//
-//    @DeleteMapping("/cart/{id}")
-//    @ResponseStatus(HttpStatus.OK)
-//    public void removeFromCart(@PathVariable Long id) {
-//        Product product = service.findProductById(id);
-//        cart.remove(MapUtils.toDto(product));
-//    }
 }

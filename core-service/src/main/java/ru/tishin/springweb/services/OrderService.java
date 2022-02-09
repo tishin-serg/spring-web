@@ -33,15 +33,9 @@ public class OrderService {
                 })
                 .collect(Collectors.toList()));
         Long orderId = orderRepository.saveAndFlush(order).getId();
-        // orderItemsService.save(order);
         cart.clear();
         return orderId;
     }
-
-
-//    public boolean existsByUsername(String username) {
-//        return orderRepository.existsByUsername(username);
-//    }
 
     public List<Order> findAllOrderByUsername(String username) {
         return orderRepository.findAllOrderByUsername(username);

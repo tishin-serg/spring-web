@@ -6,8 +6,8 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
-import ru.tishin.springweb.api.dto.ProductDto;
 import ru.tishin.springweb.api.dto.Cart;
+import ru.tishin.springweb.api.dto.ProductDto;
 
 import java.util.UUID;
 import java.util.function.Consumer;
@@ -39,6 +39,7 @@ public class CartService {
 
     public void execute(String cartKey, Consumer<Cart> action) {
         Cart cart = getCurrentCart(cartKey);
+        if (cart == null) return;
         action.accept(cart);
         updateCart(cartKey, cart);
     }
@@ -46,6 +47,7 @@ public class CartService {
     public void addProduct(String cartKey, Long productId) {
         ProductDto product = restTemplate.getForObject("http://localhost:8189/web-market-core/api/v1/products/{productId}",
                 ProductDto.class, productId);
+        if (product == null) return;
         execute(cartKey, c -> c.addProduct(product));
     }
 
