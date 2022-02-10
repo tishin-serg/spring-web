@@ -5,9 +5,10 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
-import org.springframework.web.client.RestTemplate;
-import ru.tishin.springweb.api.dto.Cart;
-import ru.tishin.springweb.api.dto.ProductDto;
+import ru.tishin.springweb.api.core.ProductDto;
+import ru.tishin.springweb.api.exceptions.ResourceNotFoundException;
+import ru.tishin.springweb.cart.integrations.ProductServiceIntegration;
+import ru.tishin.springweb.cart.models.Cart;
 
 import java.util.UUID;
 import java.util.function.Consumer;
@@ -17,7 +18,7 @@ import java.util.function.Consumer;
 @Slf4j
 public class CartService {
     private final RedisTemplate<String, Object> redisTemplate;
-    private final RestTemplate restTemplate;
+    private final ProductServiceIntegration productServiceIntegration;
 
     @Value("${utils.cart.prefix}")
     private String cartPrefix;
@@ -45,10 +46,8 @@ public class CartService {
     }
 
     public void addProduct(String cartKey, Long productId) {
-        ProductDto product = restTemplate.getForObject("http://localhost:8189/web-market-core/api/v1/products/{productId}",
-                ProductDto.class, productId);
-        if (product == null) return;
-        execute(cartKey, c -> c.addProduct(product));
+        ProductDto productDto = productServiceIntegration.findById(productId);
+        execute(cartKey, c -> c.addProduct(productDto));
     }
 
     public void decreaseProduct(String cartKey, Long productId) {

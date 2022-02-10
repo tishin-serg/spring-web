@@ -2,8 +2,10 @@ package ru.tishin.springweb.cart.controllers;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
+import ru.tishin.springweb.api.cart.CartDto;
 import ru.tishin.springweb.api.dto.StringResponse;
-import ru.tishin.springweb.api.dto.Cart;
+import ru.tishin.springweb.cart.converters.CartConverter;
+import ru.tishin.springweb.cart.models.Cart;
 import ru.tishin.springweb.cart.services.CartService;
 
 
@@ -12,10 +14,11 @@ import ru.tishin.springweb.cart.services.CartService;
 @RequiredArgsConstructor
 public class CartController {
     private final CartService cartService;
+    private final CartConverter cartConverter;
 
     @GetMapping("/{uuid}")
-    public Cart getCurrentCart(@RequestHeader(required = false) String username, @PathVariable String uuid) {
-        return cartService.getCurrentCart(getCurrentCartUuid(uuid, username));
+    public CartDto getCurrentCart(@RequestHeader(required = false) String username, @PathVariable String uuid) {
+        return cartConverter.entityToDto(cartService.getCurrentCart(getCurrentCartUuid(uuid, username)));
     }
 
     @GetMapping("/{uuid}/add/{productId}")

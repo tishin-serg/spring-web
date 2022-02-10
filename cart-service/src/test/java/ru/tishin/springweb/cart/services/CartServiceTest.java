@@ -12,9 +12,9 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.ValueOperations;
 import org.springframework.web.client.RestTemplate;
-import ru.tishin.springweb.api.dto.Cart;
-import ru.tishin.springweb.api.dto.OrderItemDto;
-import ru.tishin.springweb.api.dto.ProductDto;
+import ru.tishin.springweb.cart.models.Cart;
+import ru.tishin.springweb.api.core.ProductDto;
+import ru.tishin.springweb.cart.models.CartItem;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
@@ -38,8 +38,8 @@ class CartServiceTest {
 
     @BeforeEach
     void fillCart() {
-        cart.getItems().add(new OrderItemDto(1L, "apple", 1, 10, 10));
-        cart.getItems().add(new OrderItemDto(2L, "cucumber", 2, 10, 20));
+        cart.getItems().add(new CartItem(1L, "apple", 1, 10, 10));
+        cart.getItems().add(new CartItem(2L, "cucumber", 2, 10, 20));
     }
 
     @AfterEach

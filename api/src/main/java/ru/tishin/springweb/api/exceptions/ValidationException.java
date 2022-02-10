@@ -5,7 +5,7 @@ import lombok.Data;
 import java.util.List;
 import java.util.stream.Collectors;
 
-@Data
+
 public class ValidationException extends RuntimeException {
     private List<String> errors;
 
@@ -13,4 +13,14 @@ public class ValidationException extends RuntimeException {
         super(errors.stream().collect(Collectors.joining(", ")));
         this.errors = errors;
     }
+
+    public List<String> getErrors() {
+        return errors;
+    }
+
+    public void setErrors(List<String> errors) {
+        this.errors = errors;
+    }
+
+
 }
