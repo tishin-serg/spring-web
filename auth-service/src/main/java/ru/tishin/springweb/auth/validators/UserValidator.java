@@ -3,8 +3,8 @@ package ru.tishin.springweb.auth.validators;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import ru.tishin.springweb.api.exceptions.ValidationException;
-import ru.tishin.springweb.auth.services.UserService;
 import ru.tishin.springweb.auth.dto.UserDto;
+import ru.tishin.springweb.auth.services.UserService;
 
 import java.util.ArrayList;
 import java.util.List;

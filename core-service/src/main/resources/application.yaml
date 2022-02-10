@@ -26,3 +26,6 @@ spring:
       enabled: true
       settings:
         web-allow-others: false
+integrations:
+  cart-service:
+    url: http://localhost:8187/web-market-cart/api/v1/carts

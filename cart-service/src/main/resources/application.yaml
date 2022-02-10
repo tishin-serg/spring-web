@@ -8,3 +8,6 @@ utils:
 spring:
   application:
     name: cart-service
+integrations:
+  core-service:
+    url: http://localhost:5555/core/api/v1
