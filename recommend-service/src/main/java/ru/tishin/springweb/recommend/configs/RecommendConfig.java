@@ -1,4 +1,4 @@
-package ru.tishin.springweb.cart.configs;
+package ru.tishin.springweb.recommend.configs;
 
 import io.netty.channel.ChannelOption;
 import io.netty.handler.timeout.ReadTimeoutHandler;
@@ -14,12 +14,19 @@ import reactor.netty.tcp.TcpClient;
 import java.util.concurrent.TimeUnit;
 
 @Configuration
-public class CartConfig {
+public class RecommendConfig {
     @Value("${integrations.core-service.url}")
     private String coreServiceUrl;
 
+    @Value("${integrations.cart-service.url}")
+    private String cartServiceUrl;
+
+    /*
+    Что если использовать такой подход, когда делаем интеграцию с целым МС, а не с отдельными сервисами?
+    Потом уже в слое интеграции дописывать эндпоинт нужного сервиса
+     */
     @Bean
-    public WebClient productServiceWebClient() {
+    public WebClient coreServiceWebClient() {
         TcpClient tcpClient = TcpClient
                 .create()
                 .option(ChannelOption.CONNECT_TIMEOUT_MILLIS, 2000)
@@ -34,4 +41,22 @@ public class CartConfig {
                 .clientConnector(new ReactorClientHttpConnector(HttpClient.from(tcpClient)))
                 .build();
     }
+
+    @Bean
+    public WebClient cartStatisticServiceWebClient() {
+        TcpClient tcpClient = TcpClient
+                .create()
+                .option(ChannelOption.CONNECT_TIMEOUT_MILLIS, 2000)
+                .doOnConnected(connection -> {
+                    connection.addHandlerLast(new ReadTimeoutHandler(10000, TimeUnit.SECONDS));
+                    connection.addHandlerLast(new WriteTimeoutHandler(5000, TimeUnit.SECONDS));
+                });
+
+        return WebClient
+                .builder()
+                .baseUrl(cartServiceUrl + "/statistics")
+                .clientConnector(new ReactorClientHttpConnector(HttpClient.from(tcpClient)))
+                .build();
+    }
+
 }

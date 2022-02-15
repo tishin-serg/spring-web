@@ -8,15 +8,19 @@ import org.springframework.web.bind.annotation.*;
 import ru.tishin.springweb.api.core.ProductDto;
 import ru.tishin.springweb.core.converters.ProductConverter;
 import ru.tishin.springweb.core.entities.Product;
+import ru.tishin.springweb.core.services.OrderItemService;
 import ru.tishin.springweb.core.services.ProductService;
 import ru.tishin.springweb.core.validators.ProductValidator;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api/v1/products")
 @RequiredArgsConstructor
 @Slf4j
 public class ProductController {
-
+    private final OrderItemService orderItemService;
     private final ProductService service;
     private final ProductValidator validator;
     private final ProductConverter productConverter;
@@ -33,6 +37,14 @@ public class ProductController {
             page = 1;
         }
         return service.find(minCost, maxCost, tittlePart, page, category).map(productConverter::toProductDto);
+    }
+
+    /*
+    Дописал этот метод, чтобы не возиться с Page на принимающей стороне
+     */
+    @GetMapping("/all")
+    public List<ProductDto> getProducts() {
+        return service.getProducts().stream().map(productConverter::toProductDto).collect(Collectors.toList());
     }
 
     @GetMapping("/category")
