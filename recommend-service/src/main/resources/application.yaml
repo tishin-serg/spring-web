@@ -1,0 +1,12 @@
+server:
+  port: 8199
+  servlet:
+    context-path: /web-market-recommend
+spring:
+  application:
+    name: recommend-service
+integrations:
+  core-service:
+    url: http://localhost:8189/web-market-core/api/v1
+  cart-service:
+    url: http://localhost:8187/web-market-cart/api/v1

@@ -5,6 +5,10 @@ server:
 utils:
   cart:
     prefix: SPRING_WEB_
+  cart-statistic-cashe:
+    prefix: SPRING_WEB_STAT_CASHE_
+  cart-statistic-entire:
+    prefix: SPRING_WEB_STAT_ENTIRE_
 spring:
   application:
     name: cart-service

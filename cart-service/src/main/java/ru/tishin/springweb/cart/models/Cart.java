@@ -2,9 +2,11 @@ package ru.tishin.springweb.cart.models;
 
 import lombok.Data;
 import ru.tishin.springweb.api.core.ProductDto;
+import ru.tishin.springweb.api.exceptions.ResourceNotFoundException;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Predicate;
 
 @Data
 public class Cart {
@@ -79,5 +81,13 @@ public class Cart {
         }
         recalculate();
         anotherCart.clear();
+    }
+
+    public ProductDto getProductDtoById(Long productId) {
+        CartItem item = items.stream()
+                .filter(cartItem -> cartItem.getProductId().equals(productId))
+                .findFirst()
+                .orElseThrow(() -> new ResourceNotFoundException("Продукт #" + productId + " в корзине не найден"));
+        return new ProductDto(item.getProductId(), item.getTittle(), item.getPricePerProduct(), item.getQuantity());
     }
 }

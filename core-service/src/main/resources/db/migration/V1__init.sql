@@ -57,3 +57,28 @@ create table order_items (
     created_at          timestamp default current_timestamp,
     updated_at          timestamp default current_timestamp
 );
+
+insert into orders (username, total_price, address, phone)
+values
+('bob', 1040, 'Moscow', '555-555'),
+('john', 1320, 'Moscow', '555-556'),
+('bob', 2540, 'Moscow', '555-555'),
+('john', 990, 'Moscow', '555-556');
+
+insert into order_items (product_id, order_id, quantity, price_per_product, price)
+values
+(1, 1, 3, 80, 240),
+(2, 1, 2, 100, 200),
+(3, 2, 6, 120, 720),
+(4, 1, 2, 300, 600),
+(4, 2, 1, 300, 300),
+(4, 3, 5, 300, 1500),
+(5, 3, 10, 50, 500),
+(6, 3, 3, 180, 540),
+(7, 4, 3, 100, 300),
+(7, 2, 3, 100, 300),
+(8, 4, 3, 220, 660);
+
+insert into order_items (product_id, order_id, quantity, price_per_product, price, created_at)
+values
+(1, 4, 300, 80, 24000, '2022-01-01 01:00:00');

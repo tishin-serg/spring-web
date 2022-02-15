@@ -15,10 +15,16 @@ public class ProductDto {
         this.cost = cost;
     }
 
+
     public ProductDto(Long id, String tittle, Integer cost, Integer count) {
         this.id = id;
         this.tittle = tittle;
         this.cost = cost;
+        this.count = count;
+    }
+
+    public ProductDto(String tittle, Integer count) {
+        this.tittle = tittle;
         this.count = count;
     }
 
@@ -69,4 +75,5 @@ public class ProductDto {
     public void setCount(Integer count) {
         this.count = count;
     }
+
 }

@@ -65,10 +65,21 @@ public class CartController {
         return cartService.getCartUuidFromSuffix(username);
     }
 
+
     public String getCurrentCartUuid(String uuid, String username) {
         if (username != null) {
             return cartService.getCartUuidFromSuffix(username);
         }
         return cartService.getCartUuidFromSuffix(uuid);
+    }
+
+
+    /*
+     Генерация нескольких корзин со случайно наполненными продуктами. Для тестов
+     */
+
+    @GetMapping("/fill")
+    public void fillCart() {
+        cartService.fillCart();
     }
 }

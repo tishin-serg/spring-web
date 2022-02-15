@@ -40,6 +40,14 @@ spring:
             - StripPrefix=1
             - PrefixPath=/web-market-auth
             - JwtAuthFilter
+        - id: recommend-service
+          uri: http://localhost:8199/
+          predicates:
+            - Path=/recommends/**
+          filters:
+            - StripPrefix=1
+            - PrefixPath=/web-market-recommend
+            - JwtAuthFilter
 jwt:
   secret: naskjdnakjndkxnzckjnkj1n23kj21nerufehdiujli
   lifetime: 360000
