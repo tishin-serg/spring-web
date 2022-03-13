@@ -5,7 +5,6 @@ import org.springframework.web.bind.annotation.*;
 import ru.tishin.springweb.api.cart.CartDto;
 import ru.tishin.springweb.api.dto.StringResponse;
 import ru.tishin.springweb.cart.converters.CartConverter;
-import ru.tishin.springweb.cart.models.Cart;
 import ru.tishin.springweb.cart.services.CartService;
 
 
