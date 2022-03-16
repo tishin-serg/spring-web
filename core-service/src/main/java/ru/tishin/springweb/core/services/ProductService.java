@@ -9,6 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 import ru.tishin.springweb.api.core.ProductDto;
 import ru.tishin.springweb.api.exceptions.ResourceNotFoundException;
 import ru.tishin.springweb.core.entities.Product;
+import ru.tishin.springweb.core.exceptions.ProductNotFoundException;
 import ru.tishin.springweb.core.repository.OrderItemRepository;
 import ru.tishin.springweb.core.repository.ProductRepository;
 import ru.tishin.springweb.core.repository.specifications.ProductsSpecifications;
@@ -55,7 +56,7 @@ public class ProductService {
     }
 
     public Product findProductById(Long id) {
-        return productRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Product not found. Id: " + id));
+        return productRepository.findById(id).orElseThrow(() -> new ProductNotFoundException("Product not found. Id: " + id));
     }
 
     public void save(Product product) {
@@ -84,6 +85,9 @@ public class ProductService {
         return productRepository.findTittleById(productId);
     }
 
+    /*
+    FOR SOAP
+
     public ru.tishin.springweb.soap.Product mapProductToProductSoap(Product product) {
         ru.tishin.springweb.soap.Product productSoap = new ru.tishin.springweb.soap.Product();
         productSoap.setId(product.getId());
@@ -101,4 +105,6 @@ public class ProductService {
         return productRepository.findById(id).map(this::mapProductToProductSoap).orElseThrow(() -> new ResourceNotFoundException(
                 "Продукт " + id + "не найден"));
     }
+     */
+
 }

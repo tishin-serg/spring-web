@@ -3,6 +3,8 @@ package ru.tishin.springweb.core.repository.specifications;
 import org.springframework.data.jpa.domain.Specification;
 import ru.tishin.springweb.core.entities.Product;
 
+import java.math.BigDecimal;
+
 public class ProductsSpecifications {
     public static Specification<Product> greaterThanOrEqualTo(Integer minCost) {
         return (product, query, criteriaBuilder) -> criteriaBuilder.greaterThanOrEqualTo(product.get("cost"), minCost);

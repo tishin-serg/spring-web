@@ -31,6 +31,7 @@ public class OrderController {
         validator.validate(orderDto);
         CartDto cartDto = cartServiceIntegration.getCurrentCart(username);
         if (cartDto.getItems().isEmpty()) {
+            //todo переделать под другой exception
             throw new ResourceNotFoundException("Корзина не может быть пустой");
         }
         Order order = new Order(orderDto.getAddress(), orderDto.getPhone());

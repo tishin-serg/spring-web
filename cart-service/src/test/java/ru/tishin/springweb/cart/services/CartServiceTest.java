@@ -16,6 +16,8 @@ import ru.tishin.springweb.cart.models.Cart;
 import ru.tishin.springweb.api.core.ProductDto;
 import ru.tishin.springweb.cart.models.CartItem;
 
+import java.math.BigDecimal;
+
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
 
@@ -38,8 +40,8 @@ class CartServiceTest {
 
     @BeforeEach
     void fillCart() {
-        cart.getItems().add(new CartItem(1L, "apple", 1, 10, 10));
-        cart.getItems().add(new CartItem(2L, "cucumber", 2, 10, 20));
+        cart.getItems().add(new CartItem(1L, "apple", 1, BigDecimal.valueOf(10), BigDecimal.valueOf(10)));
+        cart.getItems().add(new CartItem(2L, "cucumber", 2, BigDecimal.valueOf(10), BigDecimal.valueOf(20)));
     }
 
     @AfterEach
@@ -52,7 +54,7 @@ class CartServiceTest {
 
         // Возможно тут перемудрил с эмуляцией действий редиса, но по-другому не получалось никак
 
-        Mockito.when(restTemplate.getForObject(any(), any(), eq(1L))).thenReturn(new ProductDto(1L, "apple", 10));
+        Mockito.when(restTemplate.getForObject(any(), any(), eq(1L))).thenReturn(new ProductDto(1L, "apple", BigDecimal.valueOf(10)));
         Mockito.doReturn(true).when(redisTemplate).hasKey("cartKey");
         Mockito.doReturn(valueOperations).when(redisTemplate).opsForValue();
         Mockito.doReturn(cart).when(valueOperations).get("cartKey");

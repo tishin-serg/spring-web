@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import ru.tishin.springweb.api.dto.JwtRequest;
 import ru.tishin.springweb.api.dto.JwtResponse;
-import ru.tishin.springweb.api.exceptions.AppError;
+import ru.tishin.springweb.api.dto.AppError;
 import ru.tishin.springweb.auth.services.UserService;
 import ru.tishin.springweb.auth.utils.JwtTokenUtil;
 
@@ -31,7 +31,8 @@ public class AuthController {
             authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(authRequest.getUsername(),
                     authRequest.getPassword()));
         } catch (BadCredentialsException e) {
-            return new ResponseEntity<>(new AppError(HttpStatus.UNAUTHORIZED.value(), "Incorrect username or password"),
+            return new ResponseEntity<>(new AppError("AUTH_ERROR_INCORRECT_USERNAME_OR_PASSWORD", "Incorrect username " +
+                    "or password"),
                     HttpStatus.UNAUTHORIZED);
         }
         UserDetails userDetails = userService.loadUserByUsername(authRequest.getUsername());

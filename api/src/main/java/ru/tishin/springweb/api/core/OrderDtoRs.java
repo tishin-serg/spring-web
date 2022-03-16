@@ -1,5 +1,6 @@
 package ru.tishin.springweb.api.core;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 public class OrderDtoRs {
@@ -7,10 +8,10 @@ public class OrderDtoRs {
     private String username;
     private String address;
     private String phone;
-    private int totalPrice;
+    private BigDecimal totalPrice;
     private List<OrderItemDto> itemList;
 
-    public OrderDtoRs(Long orderId, String username, String address, String phone, int totalPrice, List<OrderItemDto> itemList) {
+    public OrderDtoRs(Long orderId, String username, String address, String phone, BigDecimal totalPrice, List<OrderItemDto> itemList) {
         this.orderId = orderId;
         this.username = username;
         this.address = address;
@@ -54,11 +55,11 @@ public class OrderDtoRs {
         this.phone = phone;
     }
 
-    public int getTotalPrice() {
+    public BigDecimal getTotalPrice() {
         return totalPrice;
     }
 
-    public void setTotalPrice(int totalPrice) {
+    public void setTotalPrice(BigDecimal totalPrice) {
         this.totalPrice = totalPrice;
     }
 

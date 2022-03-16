@@ -40,7 +40,7 @@ angular.module('market-front').controller('storeController', function ($scope, $
     $scope.addToCart = function (productId) {
         $http.get(contextPathCartService + '/carts/' + $localStorage.springWebCartId + '/add/' + productId)
             .then(function (response) {
-                alert("Added");
+
             }, function errorCallback(response) {
                 var resp = response.data;
                 alert(resp.message);
