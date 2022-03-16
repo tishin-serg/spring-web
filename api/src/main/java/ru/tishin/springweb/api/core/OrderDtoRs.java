@@ -1,14 +1,29 @@
 package ru.tishin.springweb.api.core;
 
+import io.swagger.v3.oas.annotations.media.Schema;
+
 import java.math.BigDecimal;
 import java.util.List;
 
+@Schema(description = "Модель заказа в ответ на запрос")
 public class OrderDtoRs {
+
+    @Schema(description = "Идентификатор заказа", example = "5")
     private Long orderId;
+
+    @Schema(description = "Имя клиента", example = "Bob")
     private String username;
+
+    @Schema(description = "Адрес", example = "Москва, Тверская 4, 55")
     private String address;
+
+    @Schema(description = "Номер телефона", example = "8-999-666-22-11")
     private String phone;
+
+    @Schema(description = "Сумма заказа", example = "1000.00")
     private BigDecimal totalPrice;
+
+    @Schema(description = "Список моделей продукта в заказе")
     private List<OrderItemDto> itemList;
 
     public OrderDtoRs(Long orderId, String username, String address, String phone, BigDecimal totalPrice, List<OrderItemDto> itemList) {

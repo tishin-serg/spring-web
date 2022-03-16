@@ -1,14 +1,21 @@
 package ru.tishin.springweb.api.cart;
 
+import io.swagger.v3.oas.annotations.media.Schema;
 import ru.tishin.springweb.api.core.ProductDto;
 
 import java.math.BigDecimal;
 
+@Schema(description = "Модель продукта в корзине")
 public class CartItemDto {
+    @Schema(description = "Идентификатор продукта", example = "1")
     private Long productId;
+    @Schema(description = "Название продукта", example = "Milk")
     private String tittle;
+    @Schema(description = "Количество продукта", example = "2")
     private int quantity;
+    @Schema(description = "Цена за единицу продукта", example = "80.00")
     private BigDecimal pricePerProduct;
+    @Schema(description = "Сумма за все продукты этого типа", example = "160.00")
     private BigDecimal price;
 
     public CartItemDto(Long productId, String tittle, int quantity, BigDecimal pricePerProduct, BigDecimal price) {

@@ -1,12 +1,12 @@
-package ru.tishin.springweb.core.properties;
+package ru.tishin.springweb.cart.properties;
 
 import lombok.Data;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.boot.context.properties.ConstructorBinding;
 
 @ConstructorBinding
-@ConfigurationProperties(prefix = "integrations.cart-service")
+@ConfigurationProperties(prefix = "integrations.product-service")
 @Data
-public class CartServiceIntegrationProperties {
+public class ProductServiceIntegrationProperties {
     private String url;
 }

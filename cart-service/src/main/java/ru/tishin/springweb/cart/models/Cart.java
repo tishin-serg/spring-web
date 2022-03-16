@@ -2,12 +2,10 @@ package ru.tishin.springweb.cart.models;
 
 import lombok.Data;
 import ru.tishin.springweb.api.core.ProductDto;
-import ru.tishin.springweb.api.exceptions.ResourceNotFoundException;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.function.Predicate;
 
 @Data
 public class Cart {

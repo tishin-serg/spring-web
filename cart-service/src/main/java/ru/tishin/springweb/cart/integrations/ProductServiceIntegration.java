@@ -25,7 +25,7 @@ public class ProductServiceIntegration {
                 .onStatus(HttpStatus::is4xxClientError,
                         response -> response.bodyToMono(ProductServiceAppError.class).map(
                                 body -> {
-                                    if (body.getStatusCode().equals(ProductServiceAppError.ProductServiceErrors.PRODUCT_NOT_FOUND.name())) {
+                                    if (body.getCode().equals(ProductServiceAppError.ProductServiceErrors.PRODUCT_NOT_FOUND.name())) {
                                         return new ProductServiceIntegrationException("Ошибка интеграции с core-service: продукт #" +
                                                 productId + " не найден");
                                     }

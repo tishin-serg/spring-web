@@ -25,11 +25,11 @@ public class CartServiceIntegration {
                 .onStatus(HttpStatus::is4xxClientError,
                         response -> response.bodyToMono(CartServiceAppError.class).map(
                                 body -> {
-                                    if (body.getStatusCode().equals(CartServiceAppError.CartServiceErrors.CART_NOT_FOUND.name())) {
+                                    if (body.getCode().equals(CartServiceAppError.CartServiceErrors.CART_NOT_FOUND.name())) {
                                         return new CartServiceIntegrationException("Ошибка интеграции с cart-service: Корзина не " +
                                                 "найдена");
                                     }
-                                    if (body.getStatusCode().equals(CartServiceAppError.CartServiceErrors.CART_SERVICE_REDIS_CONNECTION_ERROR.name())) {
+                                    if (body.getCode().equals(CartServiceAppError.CartServiceErrors.CART_SERVICE_REDIS_CONNECTION_ERROR.name())) {
                                         return new CartServiceIntegrationException("Ошибка интеграции с cart-service: " +
                                                 "Соединение с редисом не потеряно");
                                     }

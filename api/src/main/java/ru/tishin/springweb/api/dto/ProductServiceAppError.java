@@ -1,5 +1,8 @@
 package ru.tishin.springweb.api.dto;
 
+import io.swagger.v3.oas.annotations.media.Schema;
+
+@Schema(description = "Модель ошибки МС core-service")
 public class ProductServiceAppError extends AppError {
 
     public enum ProductServiceErrors {

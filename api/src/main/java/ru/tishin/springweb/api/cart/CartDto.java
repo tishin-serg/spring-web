@@ -1,10 +1,15 @@
 package ru.tishin.springweb.api.cart;
 
+import io.swagger.v3.oas.annotations.media.Schema;
+
 import java.math.BigDecimal;
 import java.util.List;
 
+@Schema(description = "Модель корзины")
 public class CartDto {
+    @Schema(description = "Список товаров в корзине")
     private List<CartItemDto> items;
+    @Schema(description = "Итоговая цена")
     private BigDecimal totalPrice;
 
     public CartDto(List<CartItemDto> items, BigDecimal totalPrice) {

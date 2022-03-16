@@ -1,5 +1,6 @@
 package ru.tishin.springweb.core.controllers;
 
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 import ru.tishin.springweb.api.core.OrderItemDto;
@@ -9,13 +10,13 @@ import ru.tishin.springweb.core.services.OrderItemService;
 import java.util.List;
 import java.util.stream.Collectors;
 
+@Tag(name = "Контроллер продуктов в заказах", description = "Даёт доступ к информации о продуктах в заказах")
 @RestController
 @RequestMapping("/api/v1/order-items")
 @RequiredArgsConstructor
 public class OrderItemController {
     private final OrderItemService orderItemService;
     private final OrderConverter orderConverter;
-
 
     /*
     Возвращает List<OrderItemDto> за последние @monthAgo месяцев

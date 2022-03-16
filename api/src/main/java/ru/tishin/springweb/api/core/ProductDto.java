@@ -17,7 +17,7 @@ public class ProductDto {
     @Schema(description = "Цена продукта", required = true, example = "120.00")
     private BigDecimal cost;
 
-    @Schema(description = "Количество единиц продукта. Используется только для сбора статистики")
+    @Schema(description = "Количество единиц продукта. Используется только для сбора статистики", hidden = true)
     private Integer count;
 
     public ProductDto(Long id, String tittle, BigDecimal cost) {

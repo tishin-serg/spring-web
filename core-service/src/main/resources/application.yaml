@@ -29,6 +29,7 @@ spring:
 integrations:
   cart-service:
     url: http://localhost:8187/web-market-cart/api/v1/carts
-    connect-timeout: 2000
-    read-timeout: 10000
-    write-timeout: 2000
+    timeouts:
+      connect: 2000
+      read: 10000
+      write: 2000

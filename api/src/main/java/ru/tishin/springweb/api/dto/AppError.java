@@ -1,23 +1,30 @@
 package ru.tishin.springweb.api.dto;
 
+import io.swagger.v3.oas.annotations.media.Schema;
+
+@Schema(description = "Модель ошибки")
 public class AppError {
-    private String statusCode;
+
+    @Schema(description = "Код", example = "PRODUCT_NOT_FOUND")
+    private String code;
+
+    @Schema(description = "Детали ошибки")
     private String message;
 
-    public AppError(String statusCode, String message) {
-        this.statusCode = statusCode;
+    public AppError(String code, String message) {
+        this.code = code;
         this.message = message;
     }
 
     public AppError() {
     }
 
-    public String getStatusCode() {
-        return statusCode;
+    public String getCode() {
+        return code;
     }
 
-    public void setStatusCode(String statusCode) {
-        this.statusCode = statusCode;
+    public void setCode(String code) {
+        this.code = code;
     }
 
     public String getMessage() {
