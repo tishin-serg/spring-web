@@ -1,15 +1,24 @@
 package ru.tishin.springweb.api.cart;
 
+import io.swagger.v3.oas.annotations.media.Schema;
 import ru.tishin.springweb.api.core.ProductDto;
 
-public class CartItemDto {
-    private Long productId;
-    private String tittle;
-    private int quantity;
-    private int pricePerProduct;
-    private int price;
+import java.math.BigDecimal;
 
-    public CartItemDto(Long productId, String tittle, int quantity, int pricePerProduct, int price) {
+@Schema(description = "Модель продукта в корзине")
+public class CartItemDto {
+    @Schema(description = "Идентификатор продукта", example = "1")
+    private Long productId;
+    @Schema(description = "Название продукта", example = "Milk")
+    private String tittle;
+    @Schema(description = "Количество продукта", example = "2")
+    private int quantity;
+    @Schema(description = "Цена за единицу продукта", example = "80.00")
+    private BigDecimal pricePerProduct;
+    @Schema(description = "Сумма за все продукты этого типа", example = "160.00")
+    private BigDecimal price;
+
+    public CartItemDto(Long productId, String tittle, int quantity, BigDecimal pricePerProduct, BigDecimal price) {
         this.productId = productId;
         this.tittle = tittle;
         this.quantity = quantity;
@@ -52,19 +61,19 @@ public class CartItemDto {
         this.quantity = quantity;
     }
 
-    public int getPricePerProduct() {
+    public BigDecimal getPricePerProduct() {
         return pricePerProduct;
     }
 
-    public void setPricePerProduct(int pricePerProduct) {
+    public void setPricePerProduct(BigDecimal pricePerProduct) {
         this.pricePerProduct = pricePerProduct;
     }
 
-    public int getPrice() {
+    public BigDecimal getPrice() {
         return price;
     }
 
-    public void setPrice(int price) {
+    public void setPrice(BigDecimal price) {
         this.price = price;
     }
 }

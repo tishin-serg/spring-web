@@ -1,6 +1,10 @@
 package ru.tishin.springweb.api.dto;
 
+import io.swagger.v3.oas.annotations.media.Schema;
+
+@Schema(description = "Модель ответа")
 public class StringResponse {
+    @Schema(description = "Содержимое ответа")
     private String value;
 
     public StringResponse(String value) {

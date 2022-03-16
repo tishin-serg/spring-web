@@ -1,6 +1,7 @@
 angular.module('market-front').controller('storeController', function ($scope, $rootScope, $http, $localStorage) {
     const contextPath = 'http://localhost:5555/core/api/v1';
     const contextPathCartService = 'http://localhost:5555/cart/api/v1';
+    const contextPathRecommendService = 'http://localhost:5555/recommends/api/v1';
 
     $scope.loadProducts = function (pageIndex) {
         $http({
@@ -40,7 +41,11 @@ angular.module('market-front').controller('storeController', function ($scope, $
         $http.get(contextPathCartService + '/carts/' + $localStorage.springWebCartId + '/add/' + productId)
             .then(function (response) {
 
-            });
+            }, function errorCallback(response) {
+                var resp = response.data;
+                alert(resp.message);
+            }
+            );
     };
 
     $scope.loadCategories = function () {
@@ -49,6 +54,20 @@ angular.module('market-front').controller('storeController', function ($scope, $
                 $scope.CategoryList = response.data;
             });
     }
+
+    $scope.loadMostOrderedProducts = function () {
+        $http.get(contextPathRecommendService + '/recommends/most-ordered-products')
+                    .then(function (response) {
+                        $scope.MostOrderedProductsList = response.data;
+                    });
+    }
+
+    $scope.loadMostAddedToCartProducts = function () {
+            $http.get(contextPathRecommendService + '/recommends/most-added-to-cart-products')
+                        .then(function (response) {
+                            $scope.MostAddedToCartProductsList = response.data;
+                        });
+        }
 
     // $scope.deleteProduct = function (productId) {
     //     $http.delete(contextPath + '/products/' + productId)
@@ -59,4 +78,7 @@ angular.module('market-front').controller('storeController', function ($scope, $
 
     $scope.loadProducts();
     $scope.loadCategories();
+    $scope.loadMostOrderedProducts();
+    $scope.loadMostAddedToCartProducts();
+
 });

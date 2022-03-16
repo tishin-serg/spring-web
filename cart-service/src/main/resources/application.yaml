@@ -5,9 +5,17 @@ server:
 utils:
   cart:
     prefix: SPRING_WEB_
+  cart-statistic-cashe:
+    prefix: SPRING_WEB_STAT_CASHE_
+  cart-statistic-entire:
+    prefix: SPRING_WEB_STAT_ENTIRE_
 spring:
   application:
     name: cart-service
 integrations:
   core-service:
     url: http://localhost:5555/core/api/v1
+    timeouts:
+      connect: 2000
+        read: 10000
+        write: 2000

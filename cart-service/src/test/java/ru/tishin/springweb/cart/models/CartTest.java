@@ -1,10 +1,15 @@
 package ru.tishin.springweb.cart.models;
 
-import org.junit.jupiter.api.*;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.mockito.Spy;
 import org.springframework.boot.test.context.SpringBootTest;
 import ru.tishin.springweb.api.core.ProductDto;
+
+import java.math.BigDecimal;
 
 @SpringBootTest(classes = Cart.class)
 class CartTest {
@@ -17,7 +22,8 @@ class CartTest {
         for (int i = 0; i < 10; i++) {
             ProductDto productDto = new ProductDto();
             productDto.setId((long) (i + 1));
-            productDto.setCost(100 + i * 10);
+            int x = 10 * i;
+            productDto.setCost(BigDecimal.valueOf(100).add(BigDecimal.valueOf(x)));
             productDto.setTittle("Product " + i);
             cart.getItems().add(new CartItem(productDto));
         }
@@ -45,7 +51,7 @@ class CartTest {
     void addProduct() {
         ProductDto productDto = new ProductDto();
         productDto.setId((long) (1));
-        productDto.setCost(100);
+        productDto.setCost(BigDecimal.valueOf(100));
         productDto.setTittle("Product " + 1);
 
         for (int i = 0; i < 5; i++) {
@@ -70,7 +76,7 @@ class CartTest {
 
     @Test
     void removeProduct() {
-        cart.addProduct(new ProductDto(10L, "Product 9", 190));
+        cart.addProduct(new ProductDto(10L, "Product 9", BigDecimal.valueOf(190)));
         cart.removeProduct(10L);
 //        Mockito.verify(cart, Mockito.times(2)).recalculate();
         Assertions.assertEquals(9, cart.getItems().size());
@@ -90,7 +96,8 @@ class CartTest {
         for (int i = 0; i < 5; i++) {
             ProductDto productDto = new ProductDto();
             productDto.setId((long) (i + 1));
-            productDto.setCost(100 + i * 10);
+            int x = 10 * i;
+            productDto.setCost(BigDecimal.valueOf(100).add(BigDecimal.valueOf(x)));
             productDto.setTittle("Product " + i);
             guestCart.addProduct(productDto);
         }
@@ -101,7 +108,4 @@ class CartTest {
 //        Assertions.assertEquals(10, cart.getItems().size());
 
     }
-
-
-
 }
