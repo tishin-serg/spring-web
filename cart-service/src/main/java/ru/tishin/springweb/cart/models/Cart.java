@@ -2,14 +2,17 @@ package ru.tishin.springweb.cart.models;
 
 import lombok.Data;
 import ru.tishin.springweb.api.core.ProductDto;
+import ru.tishin.springweb.api.exceptions.ResourceNotFoundException;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Predicate;
 
 @Data
 public class Cart {
     private List<CartItem> items;
-    private int totalPrice;
+    private BigDecimal totalPrice;
 
     public Cart() {
         this.items = new ArrayList<>();
@@ -23,7 +26,7 @@ public class Cart {
 
     public void clear() {
         items.clear();
-        totalPrice = 0;
+        totalPrice = BigDecimal.ZERO;
     }
 
     public void removeProduct(Long id) {
@@ -57,9 +60,9 @@ public class Cart {
     }
 
     protected void recalculate() {
-        totalPrice = 0;
+        totalPrice = BigDecimal.ZERO;
         for (CartItem o : items) {
-            totalPrice += o.getPrice();
+            totalPrice = totalPrice.add(o.getPrice());
         }
     }
 
@@ -80,4 +83,12 @@ public class Cart {
         recalculate();
         anotherCart.clear();
     }
+
+//    public ProductDto getProductDtoById(Long productId) {
+//        CartItem item = items.stream()
+//                .filter(cartItem -> cartItem.getProductId().equals(productId))
+//                .findFirst()
+//                .orElseThrow(() -> new ResourceNotFoundException("Продукт #" + productId + " в корзине не найден"));
+//        return new ProductDto(item.getProductId(), item.getTittle(), item.getPricePerProduct(), item.getQuantity());
+//    }
 }

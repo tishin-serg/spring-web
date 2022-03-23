@@ -9,6 +9,8 @@ import org.springframework.transaction.annotation.Transactional;
 import ru.tishin.springweb.api.core.ProductDto;
 import ru.tishin.springweb.api.exceptions.ResourceNotFoundException;
 import ru.tishin.springweb.core.entities.Product;
+import ru.tishin.springweb.core.exceptions.ProductNotFoundException;
+import ru.tishin.springweb.core.repository.OrderItemRepository;
 import ru.tishin.springweb.core.repository.ProductRepository;
 import ru.tishin.springweb.core.repository.specifications.ProductsSpecifications;
 
@@ -18,7 +20,6 @@ import java.util.stream.Collectors;
 @Service
 @RequiredArgsConstructor
 public class ProductService {
-
     private final ProductRepository productRepository;
 
     public Page<Product> find(Integer minCost, Integer maxCost, String partTittle, Integer page, String category) {
@@ -55,7 +56,7 @@ public class ProductService {
     }
 
     public Product findProductById(Long id) {
-        return productRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Product not found. Id: " + id));
+        return productRepository.findById(id).orElseThrow(() -> new ProductNotFoundException("Product not found. Id: " + id));
     }
 
     public void save(Product product) {
@@ -70,10 +71,22 @@ public class ProductService {
         return product;
     }
 
+    /*
+    @Transactional
+    public List<Product> findFiveMostPopularProductsForLastMonth() {
+        return orderItemRepository.findFiveMostPopularProductsInOrdersForLastMonth().stream()
+                .map(this::findProductById).collect(Collectors.toList());
+    }
+     */
+
+
     @Transactional
     public String findTittleById(Long productId) {
         return productRepository.findTittleById(productId);
     }
+
+    /*
+    FOR SOAP
 
     public ru.tishin.springweb.soap.Product mapProductToProductSoap(Product product) {
         ru.tishin.springweb.soap.Product productSoap = new ru.tishin.springweb.soap.Product();
@@ -92,22 +105,6 @@ public class ProductService {
         return productRepository.findById(id).map(this::mapProductToProductSoap).orElseThrow(() -> new ResourceNotFoundException(
                 "Продукт " + id + "не найден"));
     }
+     */
 
-    //    public static final Function<Product, ru.tishin.springweb.soap.origin.Product> functionEntityToSoap = productEntity -> {
-//        ru.tishin.springweb.soap.origin.Product productSoap = new ru.tishin.springweb.soap.origin.Product();
-//        productSoap.setId(productEntity.getId());
-//        productSoap.setTittle(productEntity.getTittle());
-//        productSoap.setCost(productEntity.getCost());
-//        productSoap.setCategoryTittle(productEntity.getCategory().getTittle());
-//        return productSoap;
-//    };
-//
-//    public List<ru.tishin.springweb.soap.origin.Product> getAllProducts() {
-//        return productRepository.findAll().stream().map(functionEntityToSoap).collect(Collectors.toList());
-//    }
-//
-//    public ru.tishin.springweb.soap.origin.Product getById(Long id) {
-//        return productRepository.findById(id).map(functionEntityToSoap).orElseThrow(() -> new ResourceNotFoundException(
-//                "Продукт " + id + "не найден"));
-//    }
 }

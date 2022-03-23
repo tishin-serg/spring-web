@@ -5,8 +5,10 @@ import org.springframework.stereotype.Component;
 import ru.tishin.springweb.api.core.OrderDto;
 import ru.tishin.springweb.api.core.OrderDtoRs;
 import ru.tishin.springweb.api.core.OrderItemDto;
+import ru.tishin.springweb.api.core.ProductDto;
 import ru.tishin.springweb.core.entities.Order;
 import ru.tishin.springweb.core.entities.OrderItem;
+import ru.tishin.springweb.core.entities.Product;
 
 import java.util.stream.Collectors;
 
@@ -19,8 +21,8 @@ public class OrderConverter {
         OrderItemDto orderItemDto = new OrderItemDto();
         orderItemDto.setId(orderItem.getId());
         orderItemDto.setOrder(fromEntityToDto(orderItem.getOrder()));
-        orderItemDto.setProduct(orderItemDto.getProduct());
-        orderItemDto.setPricePerProduct(orderItemDto.getPricePerProduct());
+        orderItemDto.setProduct(productConverter.toProductDto(orderItem.getProduct()));
+        orderItemDto.setPricePerProduct(orderItem.getPricePerProduct());
         orderItemDto.setQuantity(orderItem.getQuantity());
         orderItemDto.setPrice(orderItem.getPrice());
         return orderItemDto;

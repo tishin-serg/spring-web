@@ -1,24 +1,40 @@
 package ru.tishin.springweb.api.core;
 
+import io.swagger.v3.oas.annotations.media.Schema;
+
+import java.math.BigDecimal;
 import java.util.Objects;
 
+@Schema(description = "Модель продукта")
 public class ProductDto {
 
+    @Schema(description = "ID продукта", required = true)
     private Long id;
+
+    @Schema(description = "Название продукта", required = true, maxLength = 255, minLength = 3, example = "Milk")
     private String tittle;
-    private Integer cost;
+
+    @Schema(description = "Цена продукта", required = true, example = "120.00")
+    private BigDecimal cost;
+
+    @Schema(description = "Количество единиц продукта. Используется только для сбора статистики")
     private Integer count;
 
-    public ProductDto(Long id, String tittle, Integer cost) {
+    public ProductDto(Long id, String tittle, BigDecimal cost) {
         this.id = id;
         this.tittle = tittle;
         this.cost = cost;
     }
 
-    public ProductDto(Long id, String tittle, Integer cost, Integer count) {
+    public ProductDto(Long id, String tittle, BigDecimal cost, Integer count) {
         this.id = id;
         this.tittle = tittle;
         this.cost = cost;
+        this.count = count;
+    }
+
+    public ProductDto(String tittle, Integer count) {
+        this.tittle = tittle;
         this.count = count;
     }
 
@@ -54,11 +70,11 @@ public class ProductDto {
         this.tittle = tittle;
     }
 
-    public Integer getCost() {
+    public BigDecimal getCost() {
         return cost;
     }
 
-    public void setCost(Integer cost) {
+    public void setCost(BigDecimal cost) {
         this.cost = cost;
     }
 
@@ -69,4 +85,5 @@ public class ProductDto {
     public void setCount(Integer count) {
         this.count = count;
     }
+
 }

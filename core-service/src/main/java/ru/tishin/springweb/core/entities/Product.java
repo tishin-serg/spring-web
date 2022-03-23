@@ -4,6 +4,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.math.BigDecimal;
 
 @Entity
 @Table(name = "products")
@@ -22,9 +23,9 @@ public class Product {
     private Category category;
 
     @Column(name = "cost")
-    private Integer cost;
+    private BigDecimal cost;
 
-    public Product(Long id, String tittle, Integer cost) {
+    public Product(Long id, String tittle, BigDecimal cost) {
         this.id = id;
         this.tittle = tittle;
         this.cost = cost;

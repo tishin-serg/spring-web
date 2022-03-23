@@ -5,7 +5,6 @@ import org.springframework.web.bind.annotation.*;
 import ru.tishin.springweb.api.cart.CartDto;
 import ru.tishin.springweb.api.dto.StringResponse;
 import ru.tishin.springweb.cart.converters.CartConverter;
-import ru.tishin.springweb.cart.models.Cart;
 import ru.tishin.springweb.cart.services.CartService;
 
 
@@ -65,10 +64,21 @@ public class CartController {
         return cartService.getCartUuidFromSuffix(username);
     }
 
+
     public String getCurrentCartUuid(String uuid, String username) {
         if (username != null) {
             return cartService.getCartUuidFromSuffix(username);
         }
         return cartService.getCartUuidFromSuffix(uuid);
+    }
+
+
+    /*
+     Генерация нескольких корзин со случайно наполненными продуктами. Для тестов
+     */
+
+    @GetMapping("/fill")
+    public void fillCart() {
+        cartService.fillCart();
     }
 }

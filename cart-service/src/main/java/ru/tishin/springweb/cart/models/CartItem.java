@@ -2,14 +2,16 @@ package ru.tishin.springweb.cart.models;
 
 import ru.tishin.springweb.api.core.ProductDto;
 
+import java.math.BigDecimal;
+
 public class CartItem {
     private Long productId;
     private String tittle;
     private int quantity;
-    private int pricePerProduct;
-    private int price;
+    private BigDecimal pricePerProduct;
+    private BigDecimal price;
 
-    public CartItem(Long productId, String tittle, int quantity, int pricePerProduct, int price) {
+    public CartItem(Long productId, String tittle, int quantity, BigDecimal pricePerProduct, BigDecimal price) {
         this.productId = productId;
         this.tittle = tittle;
         this.quantity = quantity;
@@ -25,12 +27,12 @@ public class CartItem {
         this.price = productDto.getCost();
     }
 
-    public void changeQuantity(int delta) {
-        this.quantity += delta;
-        this.price = this.pricePerProduct * this.quantity;
+    public CartItem() {
     }
 
-    public CartItem() {
+    public void changeQuantity(int delta) {
+        quantity += delta;
+        price = pricePerProduct.multiply(BigDecimal.valueOf(quantity));
     }
 
     public Long getProductId() {
@@ -57,19 +59,19 @@ public class CartItem {
         this.quantity = quantity;
     }
 
-    public int getPricePerProduct() {
+    public BigDecimal getPricePerProduct() {
         return pricePerProduct;
     }
 
-    public void setPricePerProduct(int pricePerProduct) {
+    public void setPricePerProduct(BigDecimal pricePerProduct) {
         this.pricePerProduct = pricePerProduct;
     }
 
-    public int getPrice() {
+    public BigDecimal getPrice() {
         return price;
     }
 
-    public void setPrice(int price) {
+    public void setPrice(BigDecimal price) {
         this.price = price;
     }
 }

@@ -1,10 +1,10 @@
-package ru.tishin.springweb.api.exceptions;
+package ru.tishin.springweb.api.dto;
 
 public class AppError {
-    private int statusCode;
+    private String statusCode;
     private String message;
 
-    public AppError(int statusCode, String message) {
+    public AppError(String statusCode, String message) {
         this.statusCode = statusCode;
         this.message = message;
     }
@@ -12,11 +12,11 @@ public class AppError {
     public AppError() {
     }
 
-    public int getStatusCode() {
+    public String getStatusCode() {
         return statusCode;
     }
 
-    public void setStatusCode(int statusCode) {
+    public void setStatusCode(String statusCode) {
         this.statusCode = statusCode;
     }
 

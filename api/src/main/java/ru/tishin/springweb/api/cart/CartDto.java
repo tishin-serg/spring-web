@@ -1,12 +1,13 @@
 package ru.tishin.springweb.api.cart;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 public class CartDto {
     private List<CartItemDto> items;
-    private int totalPrice;
+    private BigDecimal totalPrice;
 
-    public CartDto(List<CartItemDto> items, int totalPrice) {
+    public CartDto(List<CartItemDto> items, BigDecimal totalPrice) {
         this.items = items;
         this.totalPrice = totalPrice;
     }
@@ -22,16 +23,16 @@ public class CartDto {
         this.items = items;
     }
 
-    public int getTotalPrice() {
+    public BigDecimal getTotalPrice() {
         return totalPrice;
     }
 
-    public void setTotalPrice(int totalPrice) {
+    public void setTotalPrice(BigDecimal totalPrice) {
         this.totalPrice = totalPrice;
     }
 
     public void clear() {
         items.clear();
-        totalPrice = 0;
+        totalPrice = BigDecimal.ZERO;
     }
 }
